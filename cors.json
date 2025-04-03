@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://your-app-name.web.app", "*"],
+    "method": ["GET", "HEAD", "OPTIONS"],
+    "maxAgeSeconds": 10
+  }
+]

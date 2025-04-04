@@ -24,8 +24,8 @@ final productsServiceProvider = Provider<ProductsService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ProductsServiceRef = ProviderRef<ProductsService>;
-String _$sortedProductsInCategoryFutureHash() =>
-    r'3ad3f44672b4eed5a9fab79d06e4ee817b98ac61';
+String _$sortedProductsInCategoryHash() =>
+    r'00f6b183de478b6f8d386653ea372e4bc0ad2e4c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -48,25 +48,23 @@ class _SystemHash {
   }
 }
 
-/// See also [sortedProductsInCategoryFuture].
-@ProviderFor(sortedProductsInCategoryFuture)
-const sortedProductsInCategoryFutureProvider =
-    SortedProductsInCategoryFutureFamily();
+/// See also [sortedProductsInCategory].
+@ProviderFor(sortedProductsInCategory)
+const sortedProductsInCategoryProvider = SortedProductsInCategoryFamily();
 
-/// See also [sortedProductsInCategoryFuture].
-class SortedProductsInCategoryFutureFamily
-    extends Family<AsyncValue<List<Product>>> {
-  /// See also [sortedProductsInCategoryFuture].
-  const SortedProductsInCategoryFutureFamily();
+/// See also [sortedProductsInCategory].
+class SortedProductsInCategoryFamily extends Family<AsyncValue<List<Product>>> {
+  /// See also [sortedProductsInCategory].
+  const SortedProductsInCategoryFamily();
 
-  /// See also [sortedProductsInCategoryFuture].
-  SortedProductsInCategoryFutureProvider call(String categoryId) {
-    return SortedProductsInCategoryFutureProvider(categoryId);
+  /// See also [sortedProductsInCategory].
+  SortedProductsInCategoryProvider call(String categoryId) {
+    return SortedProductsInCategoryProvider(categoryId);
   }
 
   @override
-  SortedProductsInCategoryFutureProvider getProviderOverride(
-    covariant SortedProductsInCategoryFutureProvider provider,
+  SortedProductsInCategoryProvider getProviderOverride(
+    covariant SortedProductsInCategoryProvider provider,
   ) {
     return call(provider.categoryId);
   }
@@ -83,32 +81,32 @@ class SortedProductsInCategoryFutureFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'sortedProductsInCategoryFutureProvider';
+  String? get name => r'sortedProductsInCategoryProvider';
 }
 
-/// See also [sortedProductsInCategoryFuture].
-class SortedProductsInCategoryFutureProvider
+/// See also [sortedProductsInCategory].
+class SortedProductsInCategoryProvider
     extends AutoDisposeFutureProvider<List<Product>> {
-  /// See also [sortedProductsInCategoryFuture].
-  SortedProductsInCategoryFutureProvider(String categoryId)
+  /// See also [sortedProductsInCategory].
+  SortedProductsInCategoryProvider(String categoryId)
     : this._internal(
-        (ref) => sortedProductsInCategoryFuture(
-          ref as SortedProductsInCategoryFutureRef,
+        (ref) => sortedProductsInCategory(
+          ref as SortedProductsInCategoryRef,
           categoryId,
         ),
-        from: sortedProductsInCategoryFutureProvider,
-        name: r'sortedProductsInCategoryFutureProvider',
+        from: sortedProductsInCategoryProvider,
+        name: r'sortedProductsInCategoryProvider',
         debugGetCreateSourceHash:
             const bool.fromEnvironment('dart.vm.product')
                 ? null
-                : _$sortedProductsInCategoryFutureHash,
-        dependencies: SortedProductsInCategoryFutureFamily._dependencies,
+                : _$sortedProductsInCategoryHash,
+        dependencies: SortedProductsInCategoryFamily._dependencies,
         allTransitiveDependencies:
-            SortedProductsInCategoryFutureFamily._allTransitiveDependencies,
+            SortedProductsInCategoryFamily._allTransitiveDependencies,
         categoryId: categoryId,
       );
 
-  SortedProductsInCategoryFutureProvider._internal(
+  SortedProductsInCategoryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -122,13 +120,13 @@ class SortedProductsInCategoryFutureProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<Product>> Function(SortedProductsInCategoryFutureRef provider)
+    FutureOr<List<Product>> Function(SortedProductsInCategoryRef provider)
     create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SortedProductsInCategoryFutureProvider._internal(
-        (ref) => create(ref as SortedProductsInCategoryFutureRef),
+      override: SortedProductsInCategoryProvider._internal(
+        (ref) => create(ref as SortedProductsInCategoryRef),
         from: from,
         name: null,
         dependencies: null,
@@ -141,12 +139,12 @@ class SortedProductsInCategoryFutureProvider
 
   @override
   AutoDisposeFutureProviderElement<List<Product>> createElement() {
-    return _SortedProductsInCategoryFutureProviderElement(this);
+    return _SortedProductsInCategoryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SortedProductsInCategoryFutureProvider &&
+    return other is SortedProductsInCategoryProvider &&
         other.categoryId == categoryId;
   }
 
@@ -161,20 +159,20 @@ class SortedProductsInCategoryFutureProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin SortedProductsInCategoryFutureRef
+mixin SortedProductsInCategoryRef
     on AutoDisposeFutureProviderRef<List<Product>> {
   /// The parameter `categoryId` of this provider.
   String get categoryId;
 }
 
-class _SortedProductsInCategoryFutureProviderElement
+class _SortedProductsInCategoryProviderElement
     extends AutoDisposeFutureProviderElement<List<Product>>
-    with SortedProductsInCategoryFutureRef {
-  _SortedProductsInCategoryFutureProviderElement(super.provider);
+    with SortedProductsInCategoryRef {
+  _SortedProductsInCategoryProviderElement(super.provider);
 
   @override
   String get categoryId =>
-      (origin as SortedProductsInCategoryFutureProvider).categoryId;
+      (origin as SortedProductsInCategoryProvider).categoryId;
 }
 
 // ignore_for_file: type=lint

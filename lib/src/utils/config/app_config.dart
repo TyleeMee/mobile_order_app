@@ -1,7 +1,9 @@
 /// アプリの設定情報を保持するモデルクラス
 class AppConfig {
   /// レストランオーナーのFirebase Authentication UID
-  final String ownerId;
+  //* 本来はnon-nullableが良いが、
+  //*　AppConfigが設定される前に他の値を取得するエラーが発生→取得前の状態をnullとする
+  final String? ownerId;
 
   /// 表示モード ('normal' または 'device')
   final String displayMode;
@@ -11,7 +13,7 @@ class AppConfig {
 
   /// コンストラクタ
   const AppConfig({
-    required this.ownerId,
+    this.ownerId,
     this.displayMode = 'normal',
     this.isPreviewMode = false,
   });

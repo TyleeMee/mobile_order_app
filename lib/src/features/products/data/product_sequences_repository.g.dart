@@ -7,7 +7,7 @@ part of 'product_sequences_repository.dart';
 // **************************************************************************
 
 String _$productSequencesRepositoryHash() =>
-    r'fcd22393e3dbfaa8bbdf87d0c2debfbd12fc603a';
+    r'2ce09f6b3849d01ceec0458e481e0f30513eaaba';
 
 /// See also [productSequencesRepository].
 @ProviderFor(productSequencesRepository)
@@ -26,8 +26,8 @@ final productSequencesRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ProductSequencesRepositoryRef = ProviderRef<ProductSequencesRepository>;
-String _$productSequenceInCategoryFutureHash() =>
-    r'49c4074bedf21663b83b7a8bf6567fd58c31064c';
+String _$productSequenceInCategoryHash() =>
+    r'6072ed78f5e42b229a17eb768f48eb20adf70979';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -50,25 +50,23 @@ class _SystemHash {
   }
 }
 
-/// See also [productSequenceInCategoryFuture].
-@ProviderFor(productSequenceInCategoryFuture)
-const productSequenceInCategoryFutureProvider =
-    ProductSequenceInCategoryFutureFamily();
+/// See also [productSequenceInCategory].
+@ProviderFor(productSequenceInCategory)
+const productSequenceInCategoryProvider = ProductSequenceInCategoryFamily();
 
-/// See also [productSequenceInCategoryFuture].
-class ProductSequenceInCategoryFutureFamily
-    extends Family<AsyncValue<List<String>>> {
-  /// See also [productSequenceInCategoryFuture].
-  const ProductSequenceInCategoryFutureFamily();
+/// See also [productSequenceInCategory].
+class ProductSequenceInCategoryFamily extends Family<AsyncValue<List<String>>> {
+  /// See also [productSequenceInCategory].
+  const ProductSequenceInCategoryFamily();
 
-  /// See also [productSequenceInCategoryFuture].
-  ProductSequenceInCategoryFutureProvider call(String categoryId) {
-    return ProductSequenceInCategoryFutureProvider(categoryId);
+  /// See also [productSequenceInCategory].
+  ProductSequenceInCategoryProvider call(String categoryId) {
+    return ProductSequenceInCategoryProvider(categoryId);
   }
 
   @override
-  ProductSequenceInCategoryFutureProvider getProviderOverride(
-    covariant ProductSequenceInCategoryFutureProvider provider,
+  ProductSequenceInCategoryProvider getProviderOverride(
+    covariant ProductSequenceInCategoryProvider provider,
   ) {
     return call(provider.categoryId);
   }
@@ -85,32 +83,32 @@ class ProductSequenceInCategoryFutureFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'productSequenceInCategoryFutureProvider';
+  String? get name => r'productSequenceInCategoryProvider';
 }
 
-/// See also [productSequenceInCategoryFuture].
-class ProductSequenceInCategoryFutureProvider
+/// See also [productSequenceInCategory].
+class ProductSequenceInCategoryProvider
     extends AutoDisposeFutureProvider<List<String>> {
-  /// See also [productSequenceInCategoryFuture].
-  ProductSequenceInCategoryFutureProvider(String categoryId)
+  /// See also [productSequenceInCategory].
+  ProductSequenceInCategoryProvider(String categoryId)
     : this._internal(
-        (ref) => productSequenceInCategoryFuture(
-          ref as ProductSequenceInCategoryFutureRef,
+        (ref) => productSequenceInCategory(
+          ref as ProductSequenceInCategoryRef,
           categoryId,
         ),
-        from: productSequenceInCategoryFutureProvider,
-        name: r'productSequenceInCategoryFutureProvider',
+        from: productSequenceInCategoryProvider,
+        name: r'productSequenceInCategoryProvider',
         debugGetCreateSourceHash:
             const bool.fromEnvironment('dart.vm.product')
                 ? null
-                : _$productSequenceInCategoryFutureHash,
-        dependencies: ProductSequenceInCategoryFutureFamily._dependencies,
+                : _$productSequenceInCategoryHash,
+        dependencies: ProductSequenceInCategoryFamily._dependencies,
         allTransitiveDependencies:
-            ProductSequenceInCategoryFutureFamily._allTransitiveDependencies,
+            ProductSequenceInCategoryFamily._allTransitiveDependencies,
         categoryId: categoryId,
       );
 
-  ProductSequenceInCategoryFutureProvider._internal(
+  ProductSequenceInCategoryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -124,13 +122,13 @@ class ProductSequenceInCategoryFutureProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<String>> Function(ProductSequenceInCategoryFutureRef provider)
+    FutureOr<List<String>> Function(ProductSequenceInCategoryRef provider)
     create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: ProductSequenceInCategoryFutureProvider._internal(
-        (ref) => create(ref as ProductSequenceInCategoryFutureRef),
+      override: ProductSequenceInCategoryProvider._internal(
+        (ref) => create(ref as ProductSequenceInCategoryRef),
         from: from,
         name: null,
         dependencies: null,
@@ -143,12 +141,12 @@ class ProductSequenceInCategoryFutureProvider
 
   @override
   AutoDisposeFutureProviderElement<List<String>> createElement() {
-    return _ProductSequenceInCategoryFutureProviderElement(this);
+    return _ProductSequenceInCategoryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ProductSequenceInCategoryFutureProvider &&
+    return other is ProductSequenceInCategoryProvider &&
         other.categoryId == categoryId;
   }
 
@@ -163,20 +161,20 @@ class ProductSequenceInCategoryFutureProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ProductSequenceInCategoryFutureRef
+mixin ProductSequenceInCategoryRef
     on AutoDisposeFutureProviderRef<List<String>> {
   /// The parameter `categoryId` of this provider.
   String get categoryId;
 }
 
-class _ProductSequenceInCategoryFutureProviderElement
+class _ProductSequenceInCategoryProviderElement
     extends AutoDisposeFutureProviderElement<List<String>>
-    with ProductSequenceInCategoryFutureRef {
-  _ProductSequenceInCategoryFutureProviderElement(super.provider);
+    with ProductSequenceInCategoryRef {
+  _ProductSequenceInCategoryProviderElement(super.provider);
 
   @override
   String get categoryId =>
-      (origin as ProductSequenceInCategoryFutureProvider).categoryId;
+      (origin as ProductSequenceInCategoryProvider).categoryId;
 }
 
 // ignore_for_file: type=lint

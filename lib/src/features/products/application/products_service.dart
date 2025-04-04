@@ -61,10 +61,7 @@ ProductsService productsService(Ref ref) {
 
 // ソート済み商品のプロバイダー
 @riverpod
-Future<List<Product>> sortedProductsInCategoryFuture(
-  Ref ref,
-  CategoryID categoryId,
-) {
+Future<List<Product>> sortedProductsInCategory(Ref ref, CategoryID categoryId) {
   final productsService = ref.watch(productsServiceProvider);
   return productsService.getSortedProductsInCategory(categoryId);
 }

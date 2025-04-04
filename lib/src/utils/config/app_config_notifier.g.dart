@@ -6,7 +6,23 @@ part of 'app_config_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appConfigNotifierHash() => r'95a5aa2b2035e4904ab8fa11ed686e565e2ce7ed';
+String _$validOwnerIdHash() => r'b024ff3dae63011f10378c29758e6f9607b4c8e7';
+
+/// See also [validOwnerId].
+@ProviderFor(validOwnerId)
+final validOwnerIdProvider = AutoDisposeFutureProvider<String>.internal(
+  validOwnerId,
+  name: r'validOwnerIdProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$validOwnerIdHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ValidOwnerIdRef = AutoDisposeFutureProviderRef<String>;
+String _$appConfigNotifierHash() => r'd517721a7443d924fc0004a237bb34a0dc7e415a';
 
 /// See also [AppConfigNotifier].
 @ProviderFor(AppConfigNotifier)

@@ -75,13 +75,40 @@ class FirestoreService {
   }
 
   /// クエリを実行してコレクションのデータを取得
-  Future<List<T>> getCollection<T>({required Query<T> query}) async {
+  Future<List<T>> getCollection<T>({
+    required Query<T> query,
+    bool useCacheFallback = true,
+  }) async {
     try {
       return await _retryOperation(() async {
         final snapshot = await query.get();
         return snapshot.docs.map((doc) => doc.data()).toList();
       });
     } catch (e) {
+      // キャッシュフォールバックが有効な場合
+      if (useCacheFallback && options.enableCacheFallback) {
+        if (kDebugMode) {
+          print('ネットワークからのコレクション取得失敗。キャッシュを試行: $e');
+        }
+
+        try {
+          final cachedSnapshot = await query.get(
+            const GetOptions(source: Source.cache),
+          );
+          if (cachedSnapshot.docs.isNotEmpty) {
+            if (kDebugMode) {
+              print('キャッシュからコレクションを取得しました: ${cachedSnapshot.docs.length}件');
+            }
+            return cachedSnapshot.docs.map((doc) => doc.data()).toList();
+          }
+        } catch (cacheError) {
+          if (kDebugMode) {
+            print('キャッシュからのコレクション取得も失敗: $cacheError');
+          }
+        }
+      }
+
+      // 元のエラーを再スロー
       if (e is FirebaseException) {
         throw RepositoryException.fromFirebaseException(e);
       }

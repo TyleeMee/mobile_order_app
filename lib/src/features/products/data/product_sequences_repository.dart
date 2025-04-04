@@ -14,13 +14,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
 import 'package:mobile_order_app/src/utils/firebase/data_converters.dart';
+import 'package:mobile_order_app/src/utils/firebase/firestore_service.dart';
+import 'package:mobile_order_app/src/utils/firebase/repository_base.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_sequences_repository.g.dart';
 
 class ProductSequencesRepository {
-  const ProductSequencesRepository(this._firestore, this._ref);
+  const ProductSequencesRepository(
+    this._firestore,
+    this._firestoreService,
+    this._ref,
+  );
   final FirebaseFirestore _firestore;
+  final FirestoreService _firestoreService;
   final Ref _ref;
 
   static String ownerPath(String ownerId) => 'owners/$ownerId';
@@ -29,16 +36,14 @@ class ProductSequencesRepository {
 
   //-----プライベート関数-----
 
-  String _getCurrentOwnerId() {
-    // appConfigNotifierからownerIdを取得
-    final appConfig = _ref.read(appConfigNotifierProvider);
-    return appConfig.ownerId;
+  Future<String> _getValidOwnerId() {
+    return _ref.read(validOwnerIdProvider.future);
   }
 
-  DocumentReference<List<String>> _productSequenceInCategoryRef(
+  Future<DocumentReference<List<String>>> _productSequenceInCategoryRef(
     CategoryID categoryId,
-  ) {
-    final ownerId = _getCurrentOwnerId();
+  ) async {
+    final ownerId = await _getValidOwnerId();
     return _firestore
         .doc(productSequencesByCategoryIdPath(ownerId))
         .withConverter(
@@ -54,12 +59,22 @@ class ProductSequencesRepository {
 
   //=====取得メソッド=====
 
-  // 全カテゴリの取得
+  // 全カテゴリの取得（キャッシュフォールバック付き）
   Future<List<String>> fetchProductSequenceInCategory(
     CategoryID categoryId,
   ) async {
-    final doc = await _productSequenceInCategoryRef(categoryId).get();
-    return doc.data() ?? [];
+    try {
+      final productSequenceInCategoryRef = await _productSequenceInCategoryRef(
+        categoryId,
+      );
+      final result = await _firestoreService.getDocument(
+        docRef: productSequenceInCategoryRef,
+        useCacheFallback: true,
+      );
+      return result ?? [];
+    } catch (e) {
+      throw RepositoryException('カテゴリ内の商品シーケンス取得に失敗しました', originalError: e);
+    }
   }
 }
 
@@ -67,14 +82,16 @@ class ProductSequencesRepository {
 
 @Riverpod(keepAlive: true)
 ProductSequencesRepository productSequencesRepository(Ref ref) {
-  return ProductSequencesRepository(FirebaseFirestore.instance, ref);
+  final firestoreService = ref.watch(firestoreServiceProvider);
+  return ProductSequencesRepository(
+    FirebaseFirestore.instance,
+    firestoreService,
+    ref,
+  );
 }
 
 @riverpod
-Future<List<String>> productSequenceInCategoryFuture(
-  Ref ref,
-  CategoryID categoryId,
-) {
+Future<List<String>> productSequenceInCategory(Ref ref, CategoryID categoryId) {
   final productSequencesRepository = ref.watch(
     productSequencesRepositoryProvider,
   );

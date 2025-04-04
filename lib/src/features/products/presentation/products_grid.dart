@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
+import 'package:mobile_order_app/src/features/products/application/products_service.dart';
 import 'package:mobile_order_app/src/features/products/presentation/product_card.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
@@ -16,7 +16,7 @@ class ProductsGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsValue = ref.watch(
-      productsInCategoryFutureProvider(category.id),
+      sortedProductsInCategoryProvider(category.id),
     );
 
     //TODO 不要になったら削除

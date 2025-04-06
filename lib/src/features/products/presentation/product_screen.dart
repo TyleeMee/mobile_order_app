@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_order_app/src/common_widgets/async_value_ui.dart';
 import 'package:mobile_order_app/src/common_widgets/custom_image.dart';
 import 'package:mobile_order_app/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:mobile_order_app/src/common_widgets/empty_placeholder_widget.dart';
@@ -7,7 +8,6 @@ import 'package:mobile_order_app/src/common_widgets/reconnect_view.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/add_to_cart/add_to_cart_widget.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
 import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
 import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
@@ -18,8 +18,13 @@ class ProductScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // return Container();
     final productValue = ref.watch(productProvider(productId));
+    // AsyncValueの状態変化を監視し、エラー時にアラートダイアログを表示
+    ref.listen<AsyncValue<Product?>>(
+      productProvider(productId),
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    //* data取得時とerror/loading時でAppBarを変えたいので、AsyncValueWidgetを使用しない
     return productValue.when(
       error:
           (e, st) => Scaffold(
@@ -54,15 +59,8 @@ class ProductScreen extends ConsumerWidget {
                     appBar: AppBar(title: Text(product.title.hardcoded)),
                     body: Stack(
                       children: [
-                        ResponsiveCenter(
-                          padding: const EdgeInsets.fromLTRB(
-                            Sizes.p16,
-                            Sizes.p16,
-                            Sizes.p16,
-                            //TODO AddToCartのheightに合わせて余白を調整すること
-                            //bottomは、Stackでカート操作エリアと重なる分だけ余白を空ける
-                            130,
-                          ),
+                        Positioned.fill(
+                          bottom: 130,
                           child: SingleChildScrollView(
                             child: ProductDetails(product: product),
                           ),
@@ -88,20 +86,25 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p32),
-          child: CustomImage(imageUrl: product.imageUrl),
-        ),
-        gapH12,
-        if (product.description != null)
-          Text(
-            product.description!,
-            style: Theme.of(context).textTheme.bodyLarge,
+    return ResponsiveCenter(
+      //AddToCartと重ならないようにbottomに余白を設ける
+      padding: const EdgeInsets.all(Sizes.p16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.p32),
+            child: CustomImage(imageUrl: product.imageUrl),
           ),
-        gapH12,
-      ],
+          gapH16,
+          if (product.description != null)
+            Text(
+              product.description!,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          gapH12,
+        ],
+      ),
     );
   }
 }

@@ -11,40 +11,47 @@ class CustomImage extends StatelessWidget {
     required this.imageUrl,
     this.placeholder,
     this.errorWidget,
+    this.maxWidth = 300,
+    this.maxHeight = 300,
   });
 
   final String imageUrl;
   final Widget Function(BuildContext, String)? placeholder;
   final Widget Function(BuildContext, String, dynamic)? errorWidget;
+  final double maxWidth;
+  final double maxHeight;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(Sizes.p4),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          placeholder:
-              placeholder ??
-              (context, url) => Shimmer.fromColors(
-                baseColor: shimmerBaseColor!,
-                highlightColor: shimmerHighlightColor!,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.white,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Sizes.p4),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            placeholder:
+                placeholder ??
+                (context, url) => Shimmer.fromColors(
+                  baseColor: shimmerBaseColor!,
+                  highlightColor: shimmerHighlightColor!,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-          errorWidget:
-              errorWidget ??
-              (context, url, error) => const Center(child: Icon(Icons.error)),
-          // オプション: より堅牢なエラー処理を追加
-          errorListener: (e) {
-            debugPrint("画像の読み込みエラー: $e");
-            // エラーを処理、再読み込みを試すか、代替画像を使用する
-          },
-          fit: BoxFit.cover,
+            errorWidget:
+                errorWidget ??
+                (context, url, error) => const Center(child: Icon(Icons.error)),
+            // オプション: より堅牢なエラー処理を追加
+            errorListener: (e) {
+              debugPrint("画像の読み込みエラー: $e");
+              // エラーを処理、再読み込みを試すか、代替画像を使用する
+            },
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

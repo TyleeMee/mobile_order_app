@@ -1,8 +1,6 @@
-import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
-import 'package:mobile_order_app/src/features/cart/domain/mutable_cart.dart';
 import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,9 +17,12 @@ class AddToCartController extends _$AddToCartController {
     state = quantity;
   }
 
-  Future<void> addItem(ProductID productId) async {
-    final cart = ref.read(cartNotifierProvider);
+  void addItem(BuildContext context, ProductID productId) {
     final item = Item(productId: productId, quantity: state);
-    cart.addItem(item);
+    ref.read(cartNotifierProvider.notifier).addItem(item);
+    // 前の画面に戻る（contextが有効な場合）
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 }

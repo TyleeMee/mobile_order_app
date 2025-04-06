@@ -5,6 +5,8 @@ import 'package:mobile_order_app/firebase_options.dart';
 import 'package:mobile_order_app/src/common_widgets/alert_dialog.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 
+//TODO もっとシンプルに再接続ボタンだけにして、ReconnectButtonに変更しても良いかも
+//TODO ボタンを押した後のloadingstatega不十分
 class ReconnectView extends StatefulWidget {
   const ReconnectView({
     super.key,

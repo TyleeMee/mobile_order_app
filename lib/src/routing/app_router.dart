@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_order_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
 import 'package:mobile_order_app/src/features/products/presentation/product_screen.dart';
 import 'package:mobile_order_app/src/features/products/presentation/products_list_screen.dart';
 import 'package:mobile_order_app/src/routing/not_found_screen.dart';
@@ -36,24 +38,25 @@ GoRouter goRouter(Ref ref) {
               return ProductScreen(productId: productId);
             },
           ),
-          //         GoRoute(
-          //           path: 'cart',
-          //           name: AppRoute.cart.name,
-          //           pageBuilder: (context, state) => const MaterialPage(
-          //             fullscreenDialog: true,
-          //             child: ShoppingCartScreen(),
-          //           ),
-          //           routes: [
-          //             GoRoute(
-          //               path: 'checkout',
-          //               name: AppRoute.checkout.name,
-          //               pageBuilder: (context, state) => const MaterialPage(
-          //                 fullscreenDialog: true,
-          //                 child: CheckoutScreen(),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
+          GoRoute(
+            path: 'cart',
+            name: AppRoute.cart.name,
+            pageBuilder:
+                (context, state) => const MaterialPage(
+                  fullscreenDialog: true,
+                  child: ShoppingCartScreen(),
+                ),
+            //           routes: [
+            //             GoRoute(
+            //               path: 'checkout',
+            //               name: AppRoute.checkout.name,
+            //               pageBuilder: (context, state) => const MaterialPage(
+            //                 fullscreenDialog: true,
+            //                 child: CheckoutScreen(),
+            //               ),
+            //             ),
+            //           ],
+          ),
           //         GoRoute(
           //           path: 'orders',
           //           name: AppRoute.orders.name,

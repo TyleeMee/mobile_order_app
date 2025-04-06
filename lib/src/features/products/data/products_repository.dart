@@ -68,6 +68,41 @@ class ProductsRepository {
     }
   }
 
+  ///カート内の全商品を取得（キャッシュフォールバック付き）
+  Future<List<Product>> fetchProductsByIds(List<ProductID> productIds) async {
+    try {
+      if (productIds.isEmpty) {
+        return [];
+      }
+
+      final productsRef = await _productsRef();
+      final query = productsRef.where(
+        FieldPath.documentId,
+        whereIn: productIds,
+      );
+
+      // 商品を取得
+      final products = await _firestoreService.getCollection(
+        query: query,
+        useCacheFallback: true,
+      );
+
+      // productIdsの順序に合わせて商品を並べ替え
+      final orderedProducts = <Product>[];
+      final productMap = {for (var product in products) product.id: product};
+
+      for (var id in productIds) {
+        if (productMap.containsKey(id)) {
+          orderedProducts.add(productMap[id]!);
+        }
+      }
+
+      return orderedProducts;
+    } catch (e) {
+      throw RepositoryException('カートの商品取得に失敗しました', originalError: e);
+    }
+  }
+
   /// 特定の商品を取得（キャッシュフォールバック付き）
   Future<Product?> fetchProduct(ProductID id) async {
     try {
@@ -141,6 +176,13 @@ ProductsRepository productsRepository(Ref ref) {
 Future<List<Product>> productsInCategory(Ref ref, CategoryID categoryId) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.fetchProductsInCategory(categoryId);
+}
+
+///カート内の全商品を取得
+@riverpod
+Future<List<Product>> productsByIds(Ref ref, List<ProductID> productIds) {
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.fetchProductsByIds(productIds);
 }
 
 /// 特定の商品を取得するProvider

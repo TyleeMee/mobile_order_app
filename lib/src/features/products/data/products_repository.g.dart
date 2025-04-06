@@ -182,6 +182,139 @@ class _ProductsInCategoryProviderElement
   String get categoryId => (origin as ProductsInCategoryProvider).categoryId;
 }
 
+String _$productsByIdsHash() => r'dfdb4b181a362bbc824a0a0e83aaec5b4730286f';
+
+///カート内の全商品を取得
+///
+/// Copied from [productsByIds].
+@ProviderFor(productsByIds)
+const productsByIdsProvider = ProductsByIdsFamily();
+
+///カート内の全商品を取得
+///
+/// Copied from [productsByIds].
+class ProductsByIdsFamily extends Family<AsyncValue<List<Product>>> {
+  ///カート内の全商品を取得
+  ///
+  /// Copied from [productsByIds].
+  const ProductsByIdsFamily();
+
+  ///カート内の全商品を取得
+  ///
+  /// Copied from [productsByIds].
+  ProductsByIdsProvider call(List<String> productIds) {
+    return ProductsByIdsProvider(productIds);
+  }
+
+  @override
+  ProductsByIdsProvider getProviderOverride(
+    covariant ProductsByIdsProvider provider,
+  ) {
+    return call(provider.productIds);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productsByIdsProvider';
+}
+
+///カート内の全商品を取得
+///
+/// Copied from [productsByIds].
+class ProductsByIdsProvider extends AutoDisposeFutureProvider<List<Product>> {
+  ///カート内の全商品を取得
+  ///
+  /// Copied from [productsByIds].
+  ProductsByIdsProvider(List<String> productIds)
+    : this._internal(
+        (ref) => productsByIds(ref as ProductsByIdsRef, productIds),
+        from: productsByIdsProvider,
+        name: r'productsByIdsProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$productsByIdsHash,
+        dependencies: ProductsByIdsFamily._dependencies,
+        allTransitiveDependencies:
+            ProductsByIdsFamily._allTransitiveDependencies,
+        productIds: productIds,
+      );
+
+  ProductsByIdsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.productIds,
+  }) : super.internal();
+
+  final List<String> productIds;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Product>> Function(ProductsByIdsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProductsByIdsProvider._internal(
+        (ref) => create(ref as ProductsByIdsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        productIds: productIds,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Product>> createElement() {
+    return _ProductsByIdsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductsByIdsProvider && other.productIds == productIds;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, productIds.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ProductsByIdsRef on AutoDisposeFutureProviderRef<List<Product>> {
+  /// The parameter `productIds` of this provider.
+  List<String> get productIds;
+}
+
+class _ProductsByIdsProviderElement
+    extends AutoDisposeFutureProviderElement<List<Product>>
+    with ProductsByIdsRef {
+  _ProductsByIdsProviderElement(super.provider);
+
+  @override
+  List<String> get productIds => (origin as ProductsByIdsProvider).productIds;
+}
+
 String _$productHash() => r'269ec54c5a6bc5279964154c15cd0bb58c643270';
 
 /// 特定の商品を取得するProvider

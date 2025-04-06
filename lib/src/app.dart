@@ -21,17 +21,19 @@ class MyApp extends ConsumerWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(
-          backgroundColor: mainColor,
+          // backgroundColor: mainColor,
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: Sizes.p20,
-            color: Colors.white,
+            // color: Colors.white,
           ),
-          elevation: 0,
+          elevation: 3,
+          shadowColor: Colors.grey,
+          surfaceTintColor: Colors.transparent,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.pinkAccent, // background (button) color
+            backgroundColor: mainColor, // background (button) color
             foregroundColor: Colors.white, // foreground (text) color
           ),
         ),

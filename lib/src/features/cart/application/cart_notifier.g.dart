@@ -6,7 +6,61 @@ part of 'cart_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cartNotifierHash() => r'dde991a7f9b3cfc78881d6a9f203a8aac6987a09';
+String _$cartItemsCountHash() => r'f4e933796a79e13769d48d80999d2d93cd6ff0f0';
+
+/// See also [cartItemsCount].
+@ProviderFor(cartItemsCount)
+final cartItemsCountProvider = AutoDisposeProvider<int>.internal(
+  cartItemsCount,
+  name: r'cartItemsCountProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$cartItemsCountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CartItemsCountRef = AutoDisposeProviderRef<int>;
+String _$cartTotalHash() => r'5ac37227d337e7c979a90e5484d533438bae8918';
+
+/// See also [cartTotal].
+@ProviderFor(cartTotal)
+final cartTotalProvider = AutoDisposeFutureProvider<double>.internal(
+  cartTotal,
+  name: r'cartTotalProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$cartTotalHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CartTotalRef = AutoDisposeFutureProviderRef<double>;
+String _$cartProductIdsHash() => r'78d6c9b04eed4d9d6a632cbd204ee9ce3a32a229';
+
+///ショッピングカートのProductsリストに使用
+///
+/// Copied from [cartProductIds].
+@ProviderFor(cartProductIds)
+final cartProductIdsProvider = AutoDisposeProvider<List<ProductID>>.internal(
+  cartProductIds,
+  name: r'cartProductIdsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$cartProductIdsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CartProductIdsRef = AutoDisposeProviderRef<List<ProductID>>;
+String _$cartNotifierHash() => r'f389bda95bc21e42e32fa3b9190c738a786b3301';
 
 /// See also [CartNotifier].
 @ProviderFor(CartNotifier)

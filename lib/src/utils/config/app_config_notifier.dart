@@ -66,7 +66,7 @@ class AppConfigNotifier extends _$AppConfigNotifier {
 }
 
 // 有効なownerIdを取得するための便利なプロバイダー
-@riverpod
+@Riverpod(keepAlive: true)
 Future<String> validOwnerId(Ref ref) {
   final appConfigNotifier = ref.watch(appConfigNotifierProvider.notifier);
   return appConfigNotifier.waitForValidOwnerId();

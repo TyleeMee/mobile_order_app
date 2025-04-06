@@ -32,7 +32,7 @@ class ItemQuantitySelector extends StatelessWidget {
             icon: const Icon(Icons.remove_circle),
             onPressed:
                 onChanged != null && quantity > 1
-                    ? () => onChanged!.call(quantity - 1)
+                    ? () => onChanged!(quantity - 1)
                     : null,
           ),
         gapW4,
@@ -42,7 +42,7 @@ class ItemQuantitySelector extends StatelessWidget {
           icon: const Icon(Icons.add_circle),
           onPressed:
               onChanged != null && quantity < maxQuantity
-                  ? () => onChanged!.call(quantity + 1)
+                  ? () => onChanged!(quantity + 1)
                   : null,
         ),
       ],

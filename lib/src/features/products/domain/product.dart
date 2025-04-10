@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 
@@ -97,30 +95,9 @@ class Product {
     return result;
   }
 
-  //firestoreのデータをProductに変換
-  factory Product.fromMap(String documentId, Map<String, dynamic> map) {
-    final now = DateTime.now();
-    // createdの変換
-    DateTime created;
-    if (map['created'] is Timestamp) {
-      created = (map['created'] as Timestamp).toDate();
-    } else if (map['created'] is int) {
-      created = DateTime.fromMillisecondsSinceEpoch(map['created']);
-    } else {
-      created = now;
-    }
-
-    DateTime updated;
-    if (map['updated'] is Timestamp) {
-      updated = (map['updated'] as Timestamp).toDate();
-    } else if (map['updated'] is int) {
-      updated = DateTime.fromMillisecondsSinceEpoch(map['updated']);
-    } else {
-      updated = now;
-    }
-
+  factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: documentId,
+      id: map['id'] ?? '',
       categoryId: map['categoryId'] as CategoryID,
       title: map['title'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
@@ -129,8 +106,8 @@ class Product {
       price: map['price']?.toDouble() ?? 0.0,
       isVisible: map['isVisible'] ?? false,
       isOrderAccepting: map['isOrderAccepting'] ?? false,
-      created: created,
-      updated: updated,
+      created: DateTime.fromMillisecondsSinceEpoch(map['created']),
+      updated: DateTime.fromMillisecondsSinceEpoch(map['updated']),
     );
   }
 

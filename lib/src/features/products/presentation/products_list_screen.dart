@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_order_app/src/common_widgets/async_value_ui.dart';
 import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/decorated_box_with_shadow.dart';
@@ -11,8 +12,11 @@ import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dar
 import 'package:mobile_order_app/src/features/cart/presentation/go_to_cart/go_to_cart_widget.dart';
 import 'package:mobile_order_app/src/features/categories/application/categories_service.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
+import 'package:mobile_order_app/src/features/order/application/current_orders_notifier.dart';
+import 'package:mobile_order_app/src/features/order/presentation/order_pickup_card.dart';
 import 'package:mobile_order_app/src/features/products/presentation/products_grid.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/routing/app_router.dart';
 
 class ProductsListScreen extends ConsumerWidget {
   const ProductsListScreen({super.key});
@@ -22,6 +26,7 @@ class ProductsListScreen extends ConsumerWidget {
     final categoriesValue = ref.watch(sortedCategoriesFutureProvider);
     final cart = ref.watch(cartNotifierProvider);
     final double bottomPadding = cart.items.isNotEmpty ? 86 : 0;
+    final orders = ref.watch(currentOrdersNotifierProvider);
 
     // デバッグ用プリント
     if (categoriesValue.hasError) {
@@ -60,6 +65,15 @@ class ProductsListScreen extends ConsumerWidget {
               children: [
                 Column(
                   children: [
+                    for (var order in orders)
+                      OrderPickupCard(
+                        order: order,
+                        onPressed:
+                            () => context.goNamed(
+                              AppRoute.currentOrder.name,
+                              pathParameters: {'id': order.id},
+                            ),
+                      ),
                     TabBar(
                       isScrollable: true,
                       labelColor: Theme.of(context).primaryColor,

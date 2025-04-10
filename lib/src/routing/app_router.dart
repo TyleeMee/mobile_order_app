@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import 'package:mobile_order_app/src/features/checkout/presentation/checkout_screen.dart';
+import 'package:mobile_order_app/src/features/checkout/presentation/payment_processing_screen.dart';
+import 'package:mobile_order_app/src/features/order/presentation/current_order_screen.dart';
 import 'package:mobile_order_app/src/features/products/presentation/product_screen.dart';
 import 'package:mobile_order_app/src/features/products/presentation/products_list_screen.dart';
 import 'package:mobile_order_app/src/routing/not_found_screen.dart';
@@ -9,12 +12,17 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
 
-/// All the supported routes in the app.
-/// By using an enum, we route by name using this syntax:
-/// ```dart
-/// context.goNamed(AppRoute.orders.name)
-/// ```
-enum AppRoute { home, product, cart, checkout, orders, account, signIn }
+enum AppRoute {
+  home,
+  product,
+  cart,
+  checkout,
+  currentOrder,
+  processing,
+  orders,
+  account,
+  signIn,
+}
 
 /// アプリ内のすべてのルートを定義する GoRouter インスタンス
 @riverpod
@@ -46,17 +54,32 @@ GoRouter goRouter(Ref ref) {
                   fullscreenDialog: true,
                   child: ShoppingCartScreen(),
                 ),
-            //           routes: [
-            //             GoRoute(
-            //               path: 'checkout',
-            //               name: AppRoute.checkout.name,
-            //               pageBuilder: (context, state) => const MaterialPage(
-            //                 fullscreenDialog: true,
-            //                 child: CheckoutScreen(),
-            //               ),
-            //             ),
-            //           ],
+            routes: [
+              GoRoute(
+                path: 'checkout',
+                name: AppRoute.checkout.name,
+                builder: (context, state) => const CheckoutScreen(),
+              ),
+              GoRoute(
+                path: 'processing',
+                name: AppRoute.processing.name,
+                builder: (context, state) => const PaymentProcessingScreen(),
+              ),
+            ],
           ),
+          GoRoute(
+            path: 'currentOrder/:id',
+            name: AppRoute.currentOrder.name,
+            builder: (context, state) {
+              final orderId = state.pathParameters['id']!;
+              return CurrentOrderScreen(orderId: orderId);
+            },
+          ),
+          // GoRoute(
+          //   path: 'order',
+          //   name: AppRoute.currentOrder.name,
+          //   builder: (context, state) => const CurrentOrderScreen(),
+          // ),
           //         GoRoute(
           //           path: 'orders',
           //           name: AppRoute.orders.name,

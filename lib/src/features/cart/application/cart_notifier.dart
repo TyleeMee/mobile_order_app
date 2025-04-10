@@ -30,6 +30,11 @@ class CartNotifier extends _$CartNotifier {
     state = state.removeItemById(productId);
   }
 
+  //全ての商品を削除
+  void resetCart() {
+    state = const Cart();
+  }
+
   int getCartItemsCount() {
     return state.items.values.fold(0, (value, element) => value + element);
   }

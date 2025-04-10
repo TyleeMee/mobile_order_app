@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
+import 'package:mobile_order_app/src/utils/firebase/firestore_converters.dart';
 import 'package:mobile_order_app/src/utils/firebase/firestore_service.dart';
 import 'package:mobile_order_app/src/utils/firebase/repository_base.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -37,7 +38,8 @@ class CategoriesRepository {
     return _firestore
         .doc(categoryPath(ownerId, id))
         .withConverter(
-          fromFirestore: (doc, _) => Category.fromMap(doc.id, doc.data()!),
+          fromFirestore:
+              (doc, _) => FirestoreConverters.toCategory(doc.id, doc.data()!),
           toFirestore: (Category category, options) => category.toMap(),
         );
   }
@@ -47,7 +49,8 @@ class CategoriesRepository {
     return _firestore
         .collection(categoriesPath(ownerId))
         .withConverter(
-          fromFirestore: (doc, _) => Category.fromMap(doc.id, doc.data()!),
+          fromFirestore:
+              (doc, _) => FirestoreConverters.toCategory(doc.id, doc.data()!),
           toFirestore: (Category category, options) => category.toMap(),
         );
   }

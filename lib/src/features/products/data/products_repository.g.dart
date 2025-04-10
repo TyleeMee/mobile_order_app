@@ -184,22 +184,22 @@ class _ProductsInCategoryProviderElement
 
 String _$productsByIdsHash() => r'dfdb4b181a362bbc824a0a0e83aaec5b4730286f';
 
-///カート内の全商品を取得
+///商品リストをProductIdsから取得
 ///
 /// Copied from [productsByIds].
 @ProviderFor(productsByIds)
 const productsByIdsProvider = ProductsByIdsFamily();
 
-///カート内の全商品を取得
+///商品リストをProductIdsから取得
 ///
 /// Copied from [productsByIds].
 class ProductsByIdsFamily extends Family<AsyncValue<List<Product>>> {
-  ///カート内の全商品を取得
+  ///商品リストをProductIdsから取得
   ///
   /// Copied from [productsByIds].
   const ProductsByIdsFamily();
 
-  ///カート内の全商品を取得
+  ///商品リストをProductIdsから取得
   ///
   /// Copied from [productsByIds].
   ProductsByIdsProvider call(List<String> productIds) {
@@ -228,11 +228,11 @@ class ProductsByIdsFamily extends Family<AsyncValue<List<Product>>> {
   String? get name => r'productsByIdsProvider';
 }
 
-///カート内の全商品を取得
+///商品リストをProductIdsから取得
 ///
 /// Copied from [productsByIds].
 class ProductsByIdsProvider extends AutoDisposeFutureProvider<List<Product>> {
-  ///カート内の全商品を取得
+  ///商品リストをProductIdsから取得
   ///
   /// Copied from [productsByIds].
   ProductsByIdsProvider(List<String> productIds)

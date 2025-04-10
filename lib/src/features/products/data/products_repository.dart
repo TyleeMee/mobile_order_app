@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
+import 'package:mobile_order_app/src/utils/firebase/firestore_converters.dart';
 import 'package:mobile_order_app/src/utils/firebase/firestore_service.dart';
 import 'package:mobile_order_app/src/utils/firebase/repository_base.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -33,7 +34,8 @@ class ProductsRepository {
     return _firestore
         .doc(_productPath(ownerId, id))
         .withConverter(
-          fromFirestore: (doc, _) => Product.fromMap(doc.id, doc.data()!),
+          fromFirestore:
+              (doc, _) => FirestoreConverters.toProduct(doc.id, doc.data()!),
           toFirestore: (Product product, options) => product.toMap(),
         );
   }
@@ -44,7 +46,8 @@ class ProductsRepository {
     return _firestore
         .collection(_productsPath(ownerId))
         .withConverter(
-          fromFirestore: (doc, _) => Product.fromMap(doc.id, doc.data()!),
+          fromFirestore:
+              (doc, _) => FirestoreConverters.toProduct(doc.id, doc.data()!),
           toFirestore: (Product product, options) => product.toMap(),
         );
   }
@@ -87,19 +90,19 @@ class ProductsRepository {
         useCacheFallback: true,
       );
 
-      // productIdsの順序に合わせて商品を並べ替え
-      final orderedProducts = <Product>[];
+      // productIdsの順序に合わせて商品を取得
+      final requestedProducts = <Product>[];
       final productMap = {for (var product in products) product.id: product};
 
       for (var id in productIds) {
         if (productMap.containsKey(id)) {
-          orderedProducts.add(productMap[id]!);
+          requestedProducts.add(productMap[id]!);
         }
       }
 
-      return orderedProducts;
+      return requestedProducts;
     } catch (e) {
-      throw RepositoryException('カートの商品取得に失敗しました', originalError: e);
+      throw RepositoryException('商品リストの取得に失敗しました', originalError: e);
     }
   }
 
@@ -178,7 +181,7 @@ Future<List<Product>> productsInCategory(Ref ref, CategoryID categoryId) {
   return productsRepository.fetchProductsInCategory(categoryId);
 }
 
-///カート内の全商品を取得
+///商品リストをProductIdsから取得
 @riverpod
 Future<List<Product>> productsByIds(Ref ref, List<ProductID> productIds) {
   final productsRepository = ref.watch(productsRepositoryProvider);

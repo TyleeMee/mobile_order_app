@@ -43,33 +43,12 @@ class Category {
     return result;
   }
 
-  //firestoreのデータをCategoryに変換
-  factory Category.fromMap(String documentId, Map<String, dynamic> map) {
-    final now = DateTime.now();
-    // createdの変換
-    DateTime created;
-    if (map['created'] is Timestamp) {
-      created = (map['created'] as Timestamp).toDate();
-    } else if (map['created'] is int) {
-      created = DateTime.fromMillisecondsSinceEpoch(map['created']);
-    } else {
-      created = now;
-    }
-
-    DateTime updated;
-    if (map['updated'] is Timestamp) {
-      updated = (map['updated'] as Timestamp).toDate();
-    } else if (map['updated'] is int) {
-      updated = DateTime.fromMillisecondsSinceEpoch(map['updated']);
-    } else {
-      updated = now;
-    }
-
+  factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      id: documentId,
+      id: map['id'] ?? '',
       title: map['title'] ?? '',
-      created: created,
-      updated: updated,
+      created: DateTime.fromMillisecondsSinceEpoch(map['created']),
+      updated: DateTime.fromMillisecondsSinceEpoch(map['updated']),
     );
   }
 

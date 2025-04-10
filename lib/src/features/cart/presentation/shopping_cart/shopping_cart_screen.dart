@@ -58,13 +58,14 @@ class ShoppingCartScreen extends ConsumerWidget {
             data: (products) {
               return Stack(
                 children: [
-                  // CartItemsListを背面にしたいので、先に書く
+                  //* CartItemsListを背面にしたいので、Stackの中で先に書く
+                  //1,CartItemsList
                   SingleChildScrollView(
                     child: ResponsiveCenter(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(
                           Sizes.p16,
-                          110,
+                          126,
                           Sizes.p16,
                           Sizes.p16,
                         ),
@@ -80,8 +81,9 @@ class ShoppingCartScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  // 2,「レジに進む」ボタンの下の影
                   Positioned(
-                    top: 104,
+                    top: 120,
                     left: 0,
                     right: 0,
                     child: DecoratedBox(
@@ -99,13 +101,13 @@ class ShoppingCartScreen extends ConsumerWidget {
                       child: SizedBox(height: 0.5),
                     ),
                   ),
-                  // 小計とレジボタン
+                  // 3,小計と「レジに進む」ボタン
                   Positioned(
                     top: 0,
                     left: 0,
                     right: 0,
                     child: SizedBox(
-                      height: 104,
+                      height: 120,
                       child: ColoredBox(
                         color: Colors.white,
                         child: ResponsiveCenter(
@@ -126,21 +128,19 @@ class ShoppingCartScreen extends ConsumerWidget {
                                 ],
                               ),
                               gapH8,
-                              Expanded(
-                                child: Consumer(
-                                  builder: (context, ref, child) {
-                                    final cartItemsCount = ref.watch(
-                                      cartItemsCountProvider,
-                                    );
-                                    return PrimaryButton(
-                                      text: 'レジに進む（$cartItemsCount個の商品）',
-                                      onPressed:
-                                          () => context.goNamed(
-                                            AppRoute.checkout.name,
-                                          ),
-                                    );
-                                  },
-                                ),
+                              Consumer(
+                                builder: (context, ref, child) {
+                                  final cartItemsCount = ref.watch(
+                                    cartItemsCountProvider,
+                                  );
+                                  return PrimaryButton(
+                                    text: 'レジに進む（$cartItemsCount個の商品）',
+                                    onPressed:
+                                        () => context.goNamed(
+                                          AppRoute.checkout.name,
+                                        ),
+                                  );
+                                },
                               ),
                             ],
                           ),

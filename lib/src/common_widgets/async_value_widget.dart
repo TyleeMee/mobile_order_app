@@ -36,22 +36,13 @@ class AsyncValueWidget<T> extends StatelessWidget {
           () =>
               loading != null
                   ? loading!()
-                  : Stack(
-                    children: [
-                      //TODOこのif文が部分が本当に必要か後ほど確認
-                      // データ部分（ロード中でも表示）
-                      if (value.hasValue) data(value.value as T),
-
-                      // オーバーレイ（全画面に透過する灰色背景）
-                      Positioned.fill(
-                        child: Container(
-                          color: Colors.black.withAlpha(77),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      ),
-                    ],
+                  : SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.black.withAlpha(77),
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
                   ),
     );
   }

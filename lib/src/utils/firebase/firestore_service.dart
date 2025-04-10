@@ -116,6 +116,36 @@ class FirestoreService {
     }
   }
 
+  /// ドキュメントを追加（ドキュメントIDを自動発行）
+  Future<DocumentReference<T>> addDocument<T>({
+    required CollectionReference<T> colRef,
+    required T data,
+  }) async {
+    try {
+      return await _retryOperation(() => colRef.add(data));
+    } catch (e) {
+      if (e is FirebaseException) {
+        throw RepositoryException.fromFirebaseException(e);
+      }
+      throw RepositoryException('ドキュメント追加に失敗しました', originalError: e);
+    }
+  }
+
+  /// ドキュメントを部分的に更新する
+  Future<void> updateDocument<T>({
+    required DocumentReference<T> docRef,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      await _retryOperation(() => docRef.update(data));
+    } catch (e) {
+      if (e is FirebaseException) {
+        throw RepositoryException.fromFirebaseException(e);
+      }
+      throw RepositoryException('ドキュメント更新に失敗しました', originalError: e);
+    }
+  }
+
   /// ドキュメントを追加または更新
   Future<void> setDocument<T>({
     required DocumentReference<T> docRef,

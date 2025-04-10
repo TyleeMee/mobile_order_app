@@ -12,7 +12,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
-import 'package:mobile_order_app/src/utils/firebase/data_converters.dart';
+import 'package:mobile_order_app/src/utils/firebase/firestore_converters.dart';
 import 'package:mobile_order_app/src/utils/firebase/firestore_service.dart';
 import 'package:mobile_order_app/src/utils/firebase/repository_base.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

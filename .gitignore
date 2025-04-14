@@ -46,3 +46,10 @@ app.*.map.json
 
 # Firebase config files
 lib/firebase_options.dart
+
+firebase.json
+.firebase/
+.firebaserc
+firestore.indexes.json
+firestore.rules
+storage.rules

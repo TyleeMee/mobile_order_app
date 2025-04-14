@@ -14,9 +14,9 @@ void main() async {
   final defaultRoute =
       WidgetsBinding.instance.platformDispatcher.defaultRouteName;
   final uri = Uri.parse(defaultRoute);
-  //TODO mobile-order-manager（webApp）のプレビューからアクセスする際には、以下の1文をアンコメントし、2文目をコメントアウト
-  // final ownerId = uri.queryParameters['ownerId'] ?? '';
-  final ownerId = 'mSnjBmpxQMMTEHTkvg3zk5gbWjt2';
+  // TODO mobile-order-manager（webApp）のプレビューからアクセスする際には、以下の1文をアンコメントし、2文目をコメントアウト
+  final ownerId = uri.queryParameters['ownerId'] ?? '';
+  // final ownerId = 'mSnjBmpxQMMTEHTkvg3zk5gbWjt2';
   final displayMode = uri.queryParameters['mode'] ?? 'normal';
 
   runApp(

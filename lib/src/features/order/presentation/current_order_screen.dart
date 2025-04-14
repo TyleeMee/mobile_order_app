@@ -64,8 +64,12 @@ class CurrentOrderScreen extends StatelessWidget {
                         child: ResponsiveCenter(
                           child: SizedBox(
                             width: double.infinity,
-                            child: PrimaryButton(
-                              text: '商品を受け取りました',
+                            height: 50,
+                            child: OutlinedButton(
+                              child: Text(
+                                '受け取り完了'.hardcoded,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                               onPressed:
                                   () => _showConfirmationDialog(
                                     context,
@@ -106,9 +110,9 @@ class CurrentOrderDetails extends StatelessWidget {
           OrderPickupCard(order: order),
           Padding(
             padding: const EdgeInsets.all(Sizes.p16),
-            child: OutlinedButton(
+            child: PrimaryButton(
+              text: 'ホーム画面に戻る'.hardcoded,
               onPressed: () => context.goNamed(AppRoute.home.name),
-              child: Text('ホーム画面に戻る'.hardcoded),
             ),
           ),
           OrderTotalText(total: order.total),

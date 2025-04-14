@@ -66,13 +66,15 @@ class ProductsListScreen extends ConsumerWidget {
                 Column(
                   children: [
                     for (var order in orders)
-                      OrderPickupCard(
-                        order: order,
-                        onPressed:
-                            () => context.goNamed(
-                              AppRoute.currentOrder.name,
-                              pathParameters: {'id': order.id},
-                            ),
+                      ResponsiveCenter(
+                        child: OrderPickupCard(
+                          order: order,
+                          onPressed:
+                              () => context.goNamed(
+                                AppRoute.currentOrder.name,
+                                pathParameters: {'id': order.id},
+                              ),
+                        ),
                       ),
                     TabBar(
                       isScrollable: true,

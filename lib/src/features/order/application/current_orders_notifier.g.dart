@@ -7,7 +7,7 @@ part of 'current_orders_notifier.dart';
 // **************************************************************************
 
 String _$currentOrdersNotifierHash() =>
-    r'39bf6b9406aceadc9273318f9e2130cc50eff09d';
+    r'17043b9f53c7edd1dbef1ab1a79a8c16aa5a0631';
 
 /// See also [CurrentOrdersNotifier].
 @ProviderFor(CurrentOrdersNotifier)

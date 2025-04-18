@@ -5,9 +5,7 @@ import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/primary_button.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
-import 'package:mobile_order_app/src/constants/breakpoints.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
-import 'package:mobile_order_app/src/features/cart/domain/cart.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/cart_item_card.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/cart_total_text.dart';
 import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
@@ -20,21 +18,13 @@ class ShoppingCartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ref
-    //   ..listen<AsyncValue<void>>(shoppingCartScreenControllerProvider,
-    //       (_, state) {
-    //     state
-    //       ..showCircularProgressIndicatorDialog(context)
-    //       ..showAlertDialogOnError(context);
-    //   })
-    //   ..listen<double>(cartTotalProvider, (previousCartTotal, nextCartTotal) {
-    //     // If the cart total changes,
-    //     //it means that the items in the cart has been changed
-    //     // So we should pop off the Loading or Error Dialog.
-    //     if (previousCartTotal != null && previousCartTotal != nextCartTotal) {
-    //       Navigator.of(context).pop();
-    //     }
-    //   });
+    // cartItemsCountProviderをリッスンして、値が0になったら自動的にホーム画面に戻る
+    ref.listen<int>(cartItemsCountProvider, (previous, current) {
+      if (current == 0) {
+        context.goNamed(AppRoute.home.name);
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(title: Text('カート'.hardcoded)),
       body: Consumer(

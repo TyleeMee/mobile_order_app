@@ -4,42 +4,11 @@ import 'package:flutter/foundation.dart';
 class UrlHelper {
   static Uri getCurrentUrl() {
     if (kIsWeb) {
-      // Webプラットフォームの場合
-      return _WebUrlHelper.getCurrentUrl();
+      // Webプラットフォームの場合、Uri.baseを使用
+      return Uri.parse(Uri.base.toString());
     } else {
       // 非Webプラットフォームの場合
       return Uri.parse('');
     }
-  }
-}
-
-// Webプラットフォーム専用の実装
-class _WebUrlHelper {
-  static Uri getCurrentUrl() {
-    // このクラスはWebプラットフォームでのみインポートされる
-    if (kIsWeb) {
-      // コンパイル時にダートコンパイラがJSのインポートを行う
-      return _getLocationUrl();
-    }
-    return Uri.parse('');
-  }
-
-  // この部分はWebプラットフォームでのみコンパイル・実行される
-  static Uri _getLocationUrl() {
-    if (kIsWeb) {
-      // JavaScriptインターオペラビリティを使用
-      final location = _jsLocation();
-      return Uri.parse(location);
-    }
-    return Uri.parse('');
-  }
-
-  // JS interopを使った実装
-  static String _jsLocation() {
-    if (kIsWeb) {
-      // 以下はJavaScriptの「window.location.href」と同等
-      return Uri.base.toString();
-    }
-    return '';
   }
 }

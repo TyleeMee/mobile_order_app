@@ -40,11 +40,10 @@ class CheckoutService {
         total: total,
       );
       final order = await _ordersRepository.addOrder(orderData);
-      //addOrderが完了したら、カートを空にする。
-      // _ref.read(cartNotifierProvider.notifier).resetCart();
-      // 少し遅延を入れて状態更新が完了するのを待つ
-      //* cartNotifierProvierの状態更新中にcurrentOrdersNotifierProiderを操作するとエラー
-      //currentOrderIdsNotifierにorderIdを追加する。
+      //currentOrdersNotifierにorderを追加する。
+      //* currentOrdersNotifierProviderの状態更新中にcartNotifierProviderを操作するとエラー
+      //* (同時に2つを操作できない決まり）
+      //* cartNotifierProviderの操作はPaymentProcessingScreen
       final orders = _ref
           .read(currentOrdersNotifierProvider.notifier)
           .addOrder(order);

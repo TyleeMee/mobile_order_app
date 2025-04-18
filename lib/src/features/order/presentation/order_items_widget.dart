@@ -86,10 +86,6 @@ class OrderItemListTile extends StatelessWidget {
           ),
         ),
         const Divider(),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
-        //   child: Divider(height: 1, color: inactiveColorGrey),
-        // ),
       ],
     );
   }

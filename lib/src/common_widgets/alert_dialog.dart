@@ -13,35 +13,49 @@ Future<bool?> showAlertDialog({
   String? cancelActionText,
   String defaultActionText = 'OK',
 }) async {
+  //*アラートダイアログのエラーメッセージに表示されるフォントは
+  //*デフォルトで「Noto Sans SC」(中国語簡体字)なので、assets/fontsを使うためにフォントを指定
+  final TextStyle titleStyle = TextStyle(
+    fontFamily: 'Noto Sans JP',
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
+  final TextStyle contentStyle = TextStyle(
+    fontFamily: 'Noto Sans JP',
+    fontSize: 16,
+  );
+
+  final TextStyle buttonStyle = TextStyle(fontFamily: 'Noto Sans JP');
+
   return showDialog(
     context: context,
-    // * キャンセルボタンがある場合にのみ、ダイアログを閉じられるようにする。
     barrierDismissible: cancelActionText != null,
     builder:
         (context) => AlertDialog.adaptive(
-          title: Text(title),
-          content: content != null ? Text(content) : null,
+          title: Text(title, style: titleStyle),
+          content: content != null ? Text(content, style: contentStyle) : null,
           actions:
               kIsWeb || !Platform.isIOS
                   ? <Widget>[
                     if (cancelActionText != null)
                       TextButton(
-                        child: Text(cancelActionText),
+                        child: Text(cancelActionText, style: buttonStyle),
                         onPressed: () => Navigator.of(context).pop(false),
                       ),
                     TextButton(
-                      child: Text(defaultActionText),
+                      child: Text(defaultActionText, style: buttonStyle),
                       onPressed: () => Navigator.of(context).pop(true),
                     ),
                   ]
                   : <Widget>[
                     if (cancelActionText != null)
                       CupertinoDialogAction(
-                        child: Text(cancelActionText),
+                        child: Text(cancelActionText, style: buttonStyle),
                         onPressed: () => Navigator.of(context).pop(false),
                       ),
                     CupertinoDialogAction(
-                      child: Text(defaultActionText),
+                      child: Text(defaultActionText, style: buttonStyle),
                       onPressed: () => Navigator.of(context).pop(true),
                     ),
                   ],

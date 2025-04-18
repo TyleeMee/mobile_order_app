@@ -6,7 +6,6 @@ import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_color.dart';
-import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/constants/breakpoints.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/go_to_cart/go_to_cart_widget.dart';
@@ -23,20 +22,14 @@ class ProductsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesValue = ref.watch(sortedCategoriesFutureProvider);
+    final categoriesValue = ref.watch(sortedCategoriesProvider);
     final cart = ref.watch(cartNotifierProvider);
     final double bottomPadding = cart.items.isNotEmpty ? 86 : 0;
     final orders = ref.watch(currentOrdersNotifierProvider);
 
-    // デバッグ用プリント
-    if (categoriesValue.hasError) {
-      debugPrint('Categories error: ${categoriesValue.error}');
-      // debugPrint('Stack trace: ${categoriesValue.stackTrace}');
-    }
-
     // AsyncValueの状態変化を監視し、エラー時にアラートダイアログを表示
     ref.listen<AsyncValue<List<Category>>>(
-      sortedCategoriesFutureProvider,
+      sortedCategoriesProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
 

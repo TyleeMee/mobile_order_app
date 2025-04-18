@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/decorated_box_with_shadow.dart';
-import 'package:mobile_order_app/src/common_widgets/multi_async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/primary_button.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
@@ -18,7 +17,6 @@ import 'package:mobile_order_app/src/features/products/data/products_repository.
 import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
-import 'package:mobile_order_app/src/utils/currency_formatter.dart';
 
 class CurrentOrderScreen extends StatelessWidget {
   const CurrentOrderScreen({super.key, required this.orderId});
@@ -118,10 +116,6 @@ class CurrentOrderDetails extends StatelessWidget {
           OrderTotalText(total: order.total),
           const Divider(),
           OrderItemsWidget(order: order, products: products),
-          // ColoredBox(
-          //   color: inactiveColorLightGrey,
-          //   child: const SizedBox(height: Sizes.p32),
-          // ),
         ],
       ),
     );

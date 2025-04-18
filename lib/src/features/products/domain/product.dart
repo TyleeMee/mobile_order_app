@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 
 typedef ProductID = String;

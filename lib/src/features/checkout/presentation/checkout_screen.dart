@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_order_app/src/common_widgets/async_value_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_order_app/src/common_widgets/multi_async_value_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
@@ -12,6 +12,7 @@ import 'package:mobile_order_app/src/features/products/data/products_repository.
 import 'package:mobile_order_app/src/features/shop/data/shop_repository.dart';
 import 'package:mobile_order_app/src/features/shop/presentation/shop_info_widget.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/routing/app_router.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -22,6 +23,13 @@ class CheckoutScreen extends StatelessWidget {
       appBar: AppBar(title: Text('ご注文内容の確定'.hardcoded)),
       body: Consumer(
         builder: (context, ref, child) {
+          // cartItemsCountProviderをリッスンして、値が0になったら自動的にホーム画面に戻る
+          ref.listen<int>(cartItemsCountProvider, (previous, current) {
+            if (current == 0) {
+              context.goNamed(AppRoute.home.name);
+            }
+          });
+
           final shopValue = ref.watch(shopProvider);
           final cart = ref.watch(cartNotifierProvider);
           final productIds = ref.watch(cartProductIdsProvider);

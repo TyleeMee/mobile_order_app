@@ -77,7 +77,7 @@ class FirestoreConverters {
     );
   }
 
-  /// dynamic値から Map<ProductID, int> (items) に変換する
+  /// `dynamic値から Map<ProductID, int> (items) に変換する`
   static Map<ProductID, int> _toItemsMap(
     dynamic value, {
     Map<ProductID, int> defaultValue = const {},
@@ -106,7 +106,7 @@ class FirestoreConverters {
     return defaultValue;
   }
 
-  /// dynamic値から List<ProductID> に変換する
+  /// `dynamic値から List<ProductID> に変換する`
   static List<ProductID> _toProductIdsList(
     dynamic value, {
     List<ProductID> defaultValue = const [],
@@ -121,7 +121,7 @@ class FirestoreConverters {
     return defaultValue;
   }
 
-  /// Map<String, dynamic>から特定のキーに対応するList<String>を抽出する
+  /// `Map<String, dynamic>から特定のキーに対応するList<String>を抽出する`
   ///
   /// [data] - Firestoreから取得したデータ
   /// [key] - 抽出したいリストのキー
@@ -140,12 +140,6 @@ class FirestoreConverters {
     if (value is List) {
       return value.map((e) => e.toString()).toList();
     }
-
-    //TODO　不要であれば削除
-    // デバッグモードでは型の不一致を警告
-    // if (kDebugMode) {
-    //   print('Warning: Expected List for key "$key", but got ${value.runtimeType}');
-    // }
 
     return defaultValue;
   }

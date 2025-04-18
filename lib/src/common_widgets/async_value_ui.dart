@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/common_widgets/alert_dialog.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 
-/// A helper [AsyncValue] extension to show an alert dialog on error
-/// and convert technical error messages to user-friendly ones
+/// エラー時にアラートダイアログを表示し、
+/// 技術的なエラーメッセージをユーザーにわかりやすいものに変換するための
+/// [AsyncValue] 拡張のヘルパー
 extension AsyncValueUI on AsyncValue {
-  /// show an alert dialog if the current [AsyncValue] has an error and the
-  /// state is not loading.
+  /// 現在の [AsyncValue] にエラーがあり、
+  /// かつ状態がローディング中でない場合にアラートダイアログを表示する。
   void showAlertDialogOnError(BuildContext context) {
     if (!isLoading && hasError) {
       final message = errorMessage;
@@ -19,10 +20,10 @@ extension AsyncValueUI on AsyncValue {
     }
   }
 
-  /// Get a user-friendly error message from the current error
+  /// 現在のエラーから、ユーザーフレンドリーなエラーメッセージを取得する
   String get errorMessage => _errorMessage(error);
 
-  /// Get a user-friendly error message for different error types
+  /// さまざまなエラータイプに対して、ユーザーフレンドリーなエラーメッセージを取得する
   static String _errorMessage(Object? error) {
     //TODO アプリ固有の例外を追加する
     // if (error is AppException) {
@@ -32,21 +33,19 @@ extension AsyncValueUI on AsyncValue {
     // }
   }
 
-  /// Convert technical error messages to user-friendly ones
+  /// 技術的なエラーメッセージをユーザーフレンドリーなものに変換する
   static String _userFriendlyError(Object? error) {
     if (error == null) return 'エラーが発生しました。'.hardcoded;
 
     final errorString = error.toString();
-    //TODO デバッグ不要になったら以下の1文を削除
-    return 'デバッグエラー:$errorString';
 
-    // Network related errors
+    // ネットワーク関連エラー
     if (errorString.contains('SocketException') ||
         errorString.contains('HttpException')) {
       return 'ネットワーク接続に問題があります。接続を確認してください。'.hardcoded;
     }
 
-    // Timeout errors
+    // タイムアウトエラー
     if (errorString.contains('TimeoutException')) {
       return 'サーバーからの応答がありません。後でもう一度お試しください。'.hardcoded;
     }
@@ -60,7 +59,6 @@ extension AsyncValueUI on AsyncValue {
     // }
 
     //特定のユーザーフレンドリーなメッセージがない場合は、汎用的なメッセージを返す。
-    // print('Original error: $errorString');
     return 'エラーが発生しました。後でもう一度お試しください。'.hardcoded;
   }
 }

@@ -5,7 +5,7 @@ import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
 
-/// Placeholder widget showing a message and CTA to go back to the home screen.
+/// メッセージとホーム画面に戻るためのCTAを表示するプレースホルダーウィジェット。
 class EmptyPlaceholderWidget extends StatelessWidget {
   const EmptyPlaceholderWidget({super.key, required this.message});
   final String message;

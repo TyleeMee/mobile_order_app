@@ -18,9 +18,6 @@ class ItemQuantitySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      //TODO delete comments below if not needed
-      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (quantity == 1 && onChangedForDeletion != null)
           IconButton(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 
-/// Primary button based on [ElevatedButton]. Useful for CTAs in the app.
 class PrimaryButton extends StatelessWidget {
-  /// Create a PrimaryButton.
-  /// if [isLoading] is true, a loading indicator will be displayed instead of
-  /// the text.
+  /// PrimaryButton を作成する。
+  /// [isLoading] が true の場合、テキストの代わりにローディングインジケーターが表示される。
   const PrimaryButton({
     super.key,
     required this.text,

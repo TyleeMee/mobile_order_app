@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
 
 import 'package:mobile_order_app/src/features/products/domain/product.dart';

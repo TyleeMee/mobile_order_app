@@ -6,6 +6,6 @@ part 'currency_formatter.g.dart';
 
 @riverpod
 NumberFormat currencyFormatter(Ref ref) {
-  /// Currency formatter to be used in the app.
+  /// アプリ内で使用する通貨フォーマッター
   return NumberFormat.currency(name: 'JPY', symbol: '¥');
 }

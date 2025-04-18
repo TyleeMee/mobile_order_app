@@ -24,26 +24,24 @@ final categoriesServiceProvider = Provider<CategoriesService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CategoriesServiceRef = ProviderRef<CategoriesService>;
-String _$sortedCategoriesFutureHash() =>
-    r'f5ba650ab52e03c9613b6df2b22e7d417794175c';
+String _$sortedCategoriesHash() => r'385d41de182c97c0f2d735023f71c557d1ea433b';
 
-/// See also [sortedCategoriesFuture].
-@ProviderFor(sortedCategoriesFuture)
-final sortedCategoriesFutureProvider =
+/// See also [sortedCategories].
+@ProviderFor(sortedCategories)
+final sortedCategoriesProvider =
     AutoDisposeFutureProvider<List<Category>>.internal(
-      sortedCategoriesFuture,
-      name: r'sortedCategoriesFutureProvider',
+      sortedCategories,
+      name: r'sortedCategoriesProvider',
       debugGetCreateSourceHash:
           const bool.fromEnvironment('dart.vm.product')
               ? null
-              : _$sortedCategoriesFutureHash,
+              : _$sortedCategoriesHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef SortedCategoriesFutureRef =
-    AutoDisposeFutureProviderRef<List<Category>>;
+typedef SortedCategoriesRef = AutoDisposeFutureProviderRef<List<Category>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -60,7 +60,7 @@ CategoriesService categoriesService(Ref ref) {
 
 // ソート済みカテゴリのプロバイダー
 @riverpod
-Future<List<Category>> sortedCategoriesFuture(Ref ref) {
+Future<List<Category>> sortedCategories(Ref ref) {
   final categoriesService = ref.watch(categoriesServiceProvider);
   return categoriesService.getSortedCategories();
 }

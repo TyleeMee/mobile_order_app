@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_sizes.dart';
 
-/// Custom [DecoratedBox] widget with shadow to be used at the bottom of the
-/// screen on mobile. Useful for pinning CTAs such as checkout buttons etc.
+/// モバイル画面の下部に使用する影付きのカスタム [DecoratedBox] ウィジェット。
+/// チェックアウトボタンなどのCTAを固定表示するのに便利。
 
 class DecoratedBoxWithShadow extends StatelessWidget {
   const DecoratedBoxWithShadow({super.key, required this.child});

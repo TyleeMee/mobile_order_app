@@ -1,9 +1,9 @@
 mixin NotifierMounted {
   bool _mounted = true;
 
-  // Set the notifier as unmounted
+  // Notifier が現在マウントされているかどうか
   void setUnmounted() => _mounted = false;
 
-  // Whether the notifier is currently mounted
+  // Notifier が現在マウントされているかどうか取得
   bool get mounted => _mounted;
 }

@@ -1,4 +1,3 @@
-import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/checkout/application/checkout_service.dart';
 import 'package:mobile_order_app/src/utils/notifier_mounted.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,6 +25,9 @@ class PaymentButtonController extends _$PaymentButtonController
     try {
       final order = await checkoutService.placeOrder();
       _orderId = order?.id; // 注文IDを保存
+      // * コントローラーがマウントされているか確認してから状態を設定すること。
+      // * そうしないと、「dispose が呼ばれた後に PaymentButtonController を使おうとしました」という
+      // * エラー（Bad state）が発生してしまう可能性がある。
       if (mounted) {
         state = const AsyncData(null);
       }
@@ -34,16 +36,5 @@ class PaymentButtonController extends _$PaymentButtonController
         state = AsyncError(e, StackTrace.current);
       }
     }
-    // state = const AsyncLoading();
-    // final checkoutService = ref.read(checkoutServiceProvider);
-    // // 少し遅延させてUIの更新を確実にする
-    // await Future.delayed(const Duration(milliseconds: 50));
-    // final newState = await AsyncValue.guard(checkoutService.placeOrder);
-    // // * コントローラーがマウントされているか確認してから状態を設定すること。
-    // // * そうしないと、「dispose が呼ばれた後に PaymentButtonController を使おうとしました」という
-    // // * エラー（Bad state）が発生してしまう可能性がある。
-    // if (mounted) {
-    //   state = newState;
-    // }
   }
 }

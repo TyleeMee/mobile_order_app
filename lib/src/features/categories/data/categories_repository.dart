@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';

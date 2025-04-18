@@ -1,5 +1,6 @@
 import 'dart:math';
 
+///pickupIdに使用する4桁のランダムコード生成メソッド
 String generateRandomCode() {
   final random = Random();
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_order_app/src/common_widgets/async_value_ui.dart';
-import 'package:mobile_order_app/src/common_widgets/error_message_widget.dart';
 import 'package:mobile_order_app/src/common_widgets/reconnect_view.dart';
 
 ///AsyncValue を使用する際に、デフォルトのLoading widgetとError widgetを提供するWidget

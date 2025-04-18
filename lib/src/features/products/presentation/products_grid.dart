@@ -20,13 +20,6 @@ class ProductsGrid extends ConsumerWidget {
       sortedProductsInCategoryProvider(category.id),
     );
 
-    //TODO 不要になったら削除
-    // デバッグ用プリント
-    if (productsValue.hasError) {
-      debugPrint('Products error: ${productsValue.error}');
-      // debugPrint('Stack trace: ${categoriesValue.stackTrace}');
-    }
-
     return AsyncValueWidget<List<Product>>(
       value: productsValue,
       data:

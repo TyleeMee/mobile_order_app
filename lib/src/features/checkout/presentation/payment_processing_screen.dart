@@ -6,7 +6,6 @@ import 'package:mobile_order_app/src/constants/app_color.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/checkout/presentation/payment_button_controller.dart';
-import 'package:mobile_order_app/src/features/order/application/current_orders_notifier.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
 
@@ -49,21 +48,18 @@ class _PaymentProcessingScreenState
         // エラー発生時にダイアログを表示
         showOrderErrorDialog(context, current);
       } else if (current is AsyncData) {
-        // 成功時は注文詳細画面へ遷移
-        //TODO 不要であれば以下コメントのコードを消す。
-        // 少し遅延を入れて状態更新が完了するのを待つ
-        // await Future.delayed(const Duration(milliseconds: 300));
-        // final orders = ref.read(currentOrdersNotifierProvider);
-        // debugPrint('Orders after payment: ${orders.toString()}');
-        // final newOrderId = orders.isNotEmpty ? orders.last.id : null;
         // コントローラーから直接注文IDを取得
         final newOrderId =
             ref.read(paymentButtonControllerProvider.notifier).orderId;
 
         debugPrint('直接取得した注文ID: $newOrderId');
         //addOrderが完了したら、カートを空にする。
+        //* 本来はCartServiceのplaceOrder()でカートを空に処理を行いたいが、
+        //* currentOrdersNotifierProviderの状態更新中にcartNotifierProviderを操作するとエラー
+        //*　エラーが発生するので2つの操作を分ける。
         ref.read(cartNotifierProvider.notifier).resetCart();
         if (newOrderId != null) {
+          // 成功時は注文詳細画面へ遷移
           context.goNamed(
             AppRoute.currentOrder.name,
             pathParameters: {'id': newOrderId},

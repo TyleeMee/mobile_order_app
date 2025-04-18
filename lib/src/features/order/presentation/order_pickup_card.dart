@@ -50,11 +50,7 @@ class OrderPickupCard extends StatelessWidget {
                       children: [
                         Text(
                           '受け取り番号'.hardcoded,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            // color: inactiveTextColorGrey,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(
                           order.pickupId,

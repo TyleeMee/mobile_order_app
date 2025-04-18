@@ -4,7 +4,7 @@ import 'package:mobile_order_app/src/constants/app_color.dart';
 import 'package:shimmer/shimmer.dart';
 import '../constants/app_sizes.dart';
 
-/// Custom image widget that loads an image from Firebase Storage or local assets.
+///  バックエンドまたはローカルアセットから画像を読み込むカスタム画像ウィジェット。
 class CustomImage extends StatelessWidget {
   const CustomImage({
     super.key,
@@ -45,7 +45,7 @@ class CustomImage extends StatelessWidget {
             errorWidget:
                 errorWidget ??
                 (context, url, error) => const Center(child: Icon(Icons.error)),
-            // オプション: より堅牢なエラー処理を追加
+            // オプション: errorListenerで、より堅牢なエラー処理を追加
             errorListener: (e) {
               debugPrint("画像の読み込みエラー: $e");
               // エラーを処理、再読み込みを試すか、代替画像を使用する

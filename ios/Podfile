@@ -1,3 +1,4 @@
+source 'https://cdn.cocoapods.org/'
 # Uncomment this line to define a global platform for your project
 platform :ios, '14.0'
 
@@ -40,21 +41,29 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     
-    # iOS デプロイメントターゲットの設定
     target.build_configurations.each do |config|
+      # コンパイラフラグを直接調整して -G オプションに関する問題を修正
+      config.build_settings['OTHER_CFLAGS'] ||= ['$(inherited)']
+      config.build_settings['OTHER_CFLAGS'] << '-Wno-error'
+      config.build_settings['OTHER_CFLAGS'] << '-Wno-implicit-function-declaration'
+      config.build_settings['OTHER_CFLAGS'] << '-Wno-incompatible-sysroot'
+      config.build_settings['OTHER_CFLAGS'] << '-Wno-missing-include-dirs'
+      config.build_settings['OTHER_CFLAGS'] << '-Wno-unused-command-line-argument'
+      
+      # インデックス生成を完全に無効化
+      config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = 'NO'
+      
+      # iOS 12.0以降をターゲットに
       if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-        config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = "NO"
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
-      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
-        '$(inherited)',
-        'AUDIO_SESSION_MICROPHONE=0',
-      ]
-      # 問題のある -G フラグを回避するための設定
-      if config.build_settings['COMPILER_INDEX_STORE_ENABLE'] == 'YES'
-        config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = 'NO'
       end
-      end
+      
+      # アーキテクチャを明示的に設定
+      config.build_settings['VALID_ARCHS'] = 'arm64 arm64e'
+      config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+      
+      # "arm64-apple-ios-simulator" アーキテクチャをサポートするための設定
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = ''
     end
   end
 end

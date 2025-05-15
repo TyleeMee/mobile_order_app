@@ -4,9 +4,9 @@ import 'package:mobile_order_app/src/common_widgets/colored_headline.dart';
 import 'package:mobile_order_app/src/common_widgets/custom_image.dart';
 import 'package:mobile_order_app/src/constants/app_color.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
-import 'package:mobile_order_app/src/features/order/domain/order.dart';
-import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/models/order.dart';
+import 'package:mobile_order_app/src/models/product.dart';
 import 'package:mobile_order_app/src/utils/currency_formatter.dart';
 
 class OrderItemsWidget extends StatelessWidget {

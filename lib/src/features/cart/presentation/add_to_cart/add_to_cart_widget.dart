@@ -5,7 +5,7 @@ import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/item_quantity_selector.dart';
-import 'package:mobile_order_app/src/features/products/domain/product.dart';
+import 'package:mobile_order_app/src/models/product.dart';
 import 'package:mobile_order_app/src/utils/currency_formatter.dart';
 
 class AddToCartWidget extends ConsumerWidget {

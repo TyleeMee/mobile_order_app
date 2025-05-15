@@ -7,16 +7,16 @@ import 'package:mobile_order_app/src/common_widgets/primary_button.dart';
 import 'package:mobile_order_app/src/common_widgets/responsive_center.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/order/application/current_orders_notifier.dart';
-import 'package:mobile_order_app/src/features/order/data/orders_repository.dart';
-import 'package:mobile_order_app/src/features/order/domain/order.dart';
 import 'package:mobile_order_app/src/features/order/presentation/empty_order_view.dart';
 import 'package:mobile_order_app/src/features/order/presentation/order_items_widget.dart';
 import 'package:mobile_order_app/src/features/order/presentation/order_pickup_card.dart';
 import 'package:mobile_order_app/src/features/order/presentation/order_total_text.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
-import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/models/order.dart';
+import 'package:mobile_order_app/src/models/product.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
+import 'package:mobile_order_app/src/services/orders_service.dart';
+import 'package:mobile_order_app/src/services/products_service.dart';
 
 class CurrentOrderScreen extends StatelessWidget {
   const CurrentOrderScreen({super.key, required this.orderId});
@@ -145,9 +145,12 @@ void _showConfirmationDialog(BuildContext context, WidgetRef ref, Order order) {
                     .read(currentOrdersNotifierProvider.notifier)
                     .removeOrderId(order.id);
                 //orderStatusをservedに更新
-                ref
-                    .read(ordersRepositoryProvider)
-                    .updateOrderStatus(order.id, OrderStatus.served);
+                await ref.read(
+                  updateOrderStatusProvider(
+                    orderId: order.id,
+                    newStatus: OrderStatus.served,
+                  ).future,
+                );
                 await Future.delayed(const Duration(milliseconds: 200));
                 // async操作後にmountedチェックを行う
                 if (!context.mounted) return;

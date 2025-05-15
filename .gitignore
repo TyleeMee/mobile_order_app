@@ -53,3 +53,6 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 storage.rules
+
+# env files (can opt-in for committing if needed)
+.env*

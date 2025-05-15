@@ -1,4 +1,4 @@
-import 'package:mobile_order_app/src/features/order/domain/order.dart';
+import 'package:mobile_order_app/src/models/order.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_orders_notifier.g.dart';

@@ -1,16 +1,20 @@
 import 'dart:convert';
 
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
+import 'package:mobile_order_app/src/models/payment_intent.dart';
 
 import 'package:mobile_order_app/src/models/product.dart';
 
 enum OrderStatus {
   newOrder('新規注文'),
+  paymentPending('決済待ち'), // 追加
+  paymentFailed('決済失敗'), // 追加
   confirmed('確認済み'),
   canceled('キャンセル'),
   cooking('調理中'),
   prepared('準備完了'),
-  served('提供済み');
+  served('提供済み'),
+  refunded('返金済み'); // 追加
 
   final String displayName;
   const OrderStatus(this.displayName);
@@ -51,11 +55,17 @@ class Order {
     required this.orderStatus,
     required this.orderDate,
     required this.total,
-    // Map<ProductID, String>? productTitles,
     required this.productTitles,
-  })
-  // : productTitles = productTitles ?? {}
-  ;
+    // 決済関連フィールド（最小限）
+    this.paymentIntentId,
+    this.paymentMethodId,
+    this.paymentStatus,
+    this.chargeId,
+    this.receiptUrl,
+    this.refundId,
+    this.paymentMetadata,
+  });
+
   final OrderID id;
   final PickupID pickupId;
   final Map<ProductID, int> items;
@@ -65,39 +75,14 @@ class Order {
   final double total;
   final Map<ProductID, String> productTitles;
 
-  // Order copyWith({
-  //   OrderID? id,
-  //   PickupID? pickupId,
-  //   Map<ProductID, int>? items,
-  //   List<ProductID>? productIds,
-  //   OrderStatus? orderStatus,
-  //   DateTime? orderDate,
-  //   double? total,
-  // }) {
-  //   return Order(
-  //     id: id ?? this.id,
-  //     pickupId: pickupId ?? this.pickupId,
-  //     items: items ?? this.items,
-  //     productIds: productIds ?? this.productIds,
-  //     orderStatus: orderStatus ?? this.orderStatus,
-  //     orderDate: orderDate ?? this.orderDate,
-  //     total: total ?? this.total,
-  //   );
-  // }
-
-  // Map<String, dynamic> toMap() {
-  //   final result = <String, dynamic>{};
-
-  //   result.addAll({'id': id});
-  //   result.addAll({'pickupId': pickupId});
-  //   result.addAll({'items': items});
-  //   result.addAll({'productIds': productIds});
-  //   result.addAll({'orderStatus': orderStatus.toStorageString()});
-  //   result.addAll({'orderDate': orderDate.millisecondsSinceEpoch});
-  //   result.addAll({'total': total});
-
-  //   return result;
-  // }
+  // 決済関連フィールド（最小限）
+  final String? paymentIntentId; // Stripe PaymentIntent ID
+  final String? paymentMethodId; // 決済方法ID
+  final PaymentStatus? paymentStatus; // 決済ステータス
+  final String? chargeId; // Stripe Charge ID
+  final String? receiptUrl; // 領収書URL
+  final String? refundId; // 返金ID
+  final PaymentMetadata? paymentMetadata; // 決済メタデータ
 
   factory Order.fromMap(Map<String, dynamic> map) {
     // タイムスタンプ変換用のヘルパー関数
@@ -123,17 +108,22 @@ class Order {
       orderDate: parseTimestamp(map['orderDate']),
       total: map['total']?.toDouble() ?? 0.0,
       productTitles: Map<ProductID, String>.from(map['productTitles'] ?? {}),
+      // 決済関連フィールド
+      paymentIntentId: map['paymentIntentId'],
+      paymentMethodId: map['paymentMethodId'],
+      paymentStatus:
+          map['paymentStatus'] != null
+              ? PaymentStatus.fromStorageString(map['paymentStatus'])
+              : null,
+      chargeId: map['chargeId'],
+      receiptUrl: map['receiptUrl'],
+      refundId: map['refundId'],
+      paymentMetadata:
+          map['paymentMetadata'] != null
+              ? PaymentMetadata.fromMap(map['paymentMetadata'])
+              : null,
     );
   }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory Order.fromJson(String source) => Order.fromMap(json.decode(source));
-
-  // @override
-  // String toString() {
-  //   return 'Order(id: $id, pickupId: $pickupId, items: $items, productIds: $productIds, orderStatus: $orderStatus, orderDate: $orderDate, total: $total)';
-  // }
 }
 
 extension OrderItems on Order {
@@ -152,13 +142,31 @@ class OrderData {
     required this.orderStatus,
     required this.orderDate,
     required this.total,
+    // 決済関連（最小限）
+    this.paymentIntentId,
+    this.paymentMethodId,
+    this.paymentStatus,
+    this.chargeId,
+    this.receiptUrl,
+    this.refundId,
+    this.paymentMetadata,
   });
+
   final PickupID pickupId;
   final Map<ProductID, int> items;
   final List<ProductID> productIds;
   final OrderStatus orderStatus;
   final DateTime orderDate;
   final double total;
+
+  // 決済関連フィールド（最小限）
+  final String? paymentIntentId;
+  final String? paymentMethodId;
+  final PaymentStatus? paymentStatus;
+  final String? chargeId;
+  final String? receiptUrl;
+  final String? refundId;
+  final PaymentMetadata? paymentMetadata;
 
   OrderData copyWith({
     PickupID? pickupId,
@@ -167,6 +175,13 @@ class OrderData {
     OrderStatus? orderStatus,
     DateTime? orderDate,
     double? total,
+    String? paymentIntentId,
+    String? paymentMethodId,
+    PaymentStatus? paymentStatus,
+    String? chargeId,
+    String? receiptUrl,
+    String? refundId,
+    PaymentMetadata? paymentMetadata,
   }) {
     return OrderData(
       pickupId: pickupId ?? this.pickupId,
@@ -175,6 +190,13 @@ class OrderData {
       orderStatus: orderStatus ?? this.orderStatus,
       orderDate: orderDate ?? this.orderDate,
       total: total ?? this.total,
+      paymentIntentId: paymentIntentId ?? this.paymentIntentId,
+      paymentMethodId: paymentMethodId ?? this.paymentMethodId,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      chargeId: chargeId ?? this.chargeId,
+      receiptUrl: receiptUrl ?? this.receiptUrl,
+      refundId: refundId ?? this.refundId,
+      paymentMetadata: paymentMetadata ?? this.paymentMetadata,
     );
   }
 
@@ -187,6 +209,29 @@ class OrderData {
     result.addAll({'orderStatus': orderStatus.toStorageString()});
     result.addAll({'orderDate': orderDate.millisecondsSinceEpoch});
     result.addAll({'total': total});
+
+    // 決済関連フィールド（nullでない場合のみ追加）
+    if (paymentIntentId != null) {
+      result.addAll({'paymentIntentId': paymentIntentId});
+    }
+    if (paymentMethodId != null) {
+      result.addAll({'paymentMethodId': paymentMethodId});
+    }
+    if (paymentStatus != null) {
+      result.addAll({'paymentStatus': paymentStatus!.toStorageString()});
+    }
+    if (chargeId != null) {
+      result.addAll({'chargeId': chargeId});
+    }
+    if (receiptUrl != null) {
+      result.addAll({'receiptUrl': receiptUrl});
+    }
+    if (refundId != null) {
+      result.addAll({'refundId': refundId});
+    }
+    if (paymentMetadata != null) {
+      result.addAll({'paymentMetadata': paymentMetadata!.toMap()});
+    }
 
     return result;
   }
@@ -213,6 +258,20 @@ class OrderData {
       orderStatus: OrderStatus.fromStorageString(map['orderStatus']),
       orderDate: parseTimestamp(map['orderDate']),
       total: map['total']?.toDouble() ?? 0.0,
+      // 決済関連フィールド
+      paymentIntentId: map['paymentIntentId'],
+      paymentMethodId: map['paymentMethodId'],
+      paymentStatus:
+          map['paymentStatus'] != null
+              ? PaymentStatus.fromStorageString(map['paymentStatus'])
+              : null,
+      chargeId: map['chargeId'],
+      receiptUrl: map['receiptUrl'],
+      refundId: map['refundId'],
+      paymentMetadata:
+          map['paymentMetadata'] != null
+              ? PaymentMetadata.fromMap(map['paymentMetadata'])
+              : null,
     );
   }
 

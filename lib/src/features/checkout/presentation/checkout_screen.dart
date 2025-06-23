@@ -46,7 +46,7 @@ class CheckoutScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       if (shop != null) ShopInfoWidget(shop: shop),
-                      PaymentWidget(cart: cart),
+                      PaymentWidget(),
                       Padding(
                         padding: const EdgeInsets.all(Sizes.p16),
                         child: Row(

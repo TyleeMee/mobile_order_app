@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile_order_app/src/app.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
@@ -25,6 +26,10 @@ void main() async {
   // 環境変数の読み込み
   await dotenv.load(fileName: ".env");
 
+  // Stripe初期化をここに追加
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
+  await Stripe.instance.applySettings();
+
   String ownerId = '';
   String displayMode = 'normal';
 
@@ -43,7 +48,7 @@ void main() async {
     } catch (e) {
       logger.e('URL解析エラー: $e');
       // フォールバック
-      ownerId = '77046ae8-9041-70aa-3c13-29eef01928b4';
+      ownerId = '77345a38-40c1-7096-68e1-18382c61ef20';
     }
   } else {
     // 非Webプラットフォームの場合（元の方法）
@@ -56,7 +61,7 @@ void main() async {
 
   // ownerIdが空の場合はデフォルト値を使用
   if (ownerId.isEmpty) {
-    ownerId = '77046ae8-9041-70aa-3c13-29eef01928b4';
+    ownerId = '77345a38-40c1-7096-68e1-18382c61ef20';
   }
 
   logger.i('最終的なownerId: $ownerId');

@@ -7,6 +7,7 @@ import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/models/order.dart';
 import 'package:mobile_order_app/src/services/orders_service.dart';
 import 'package:mobile_order_app/src/services/products_service.dart';
+import 'package:mobile_order_app/src/utils/cart_payment_converter.dart';
 import 'package:mobile_order_app/src/utils/generate_random_code.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,7 +18,15 @@ class CheckoutService {
   final Cart _cart;
   final Ref _ref;
 
-  Future<Order?> placeOrder() async {
+  // 合計金額計算用のpublicメソッド（Cart変換ユーティリティ使用）
+  Future<double> calculateTotal(Cart cart) async {
+    return await CartPaymentConverter.calculateCartTotal(
+      cart: cart,
+      getProduct: (productId) => _ref.read(productProvider(productId).future),
+    );
+  }
+
+  Future<Order?> placeOrder({String? paymentIntentId}) async {
     if (_cart.items.isNotEmpty) {
       // カートの内容をローカル変数にコピー（状態更新前に取得）
       final cartItems = Map<String, int>.from(_cart.items);
@@ -31,6 +40,7 @@ class CheckoutService {
         orderStatus: OrderStatus.newOrder,
         orderDate: DateTime.now(),
         total: total,
+        paymentIntentId: paymentIntentId,
       );
       final order = await _ref.read(createOrderProvider(orderData).future);
       //currentOrdersNotifierにorderを追加する。

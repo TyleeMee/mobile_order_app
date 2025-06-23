@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';

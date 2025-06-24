@@ -8,10 +8,10 @@ import 'package:mobile_order_app/src/constants/app_sizes.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/cart_item_card.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/cart_total_text.dart';
+import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
+import 'package:mobile_order_app/src/features/products/domain/product.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
-import 'package:mobile_order_app/src/models/product.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
-import 'package:mobile_order_app/src/services/products_service.dart';
 
 class ShoppingCartScreen extends ConsumerWidget {
   const ShoppingCartScreen({super.key});

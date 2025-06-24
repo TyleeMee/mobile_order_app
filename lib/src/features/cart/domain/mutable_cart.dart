@@ -1,6 +1,6 @@
 import 'package:mobile_order_app/src/features/cart/domain/cart.dart';
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
-import 'package:mobile_order_app/src/models/product.dart';
+import 'package:mobile_order_app/src/features/products/domain/product.dart';
 
 /// ショッピングカート内のアイテムを変更するためのヘルパー拡張
 extension MutableCart on Cart {

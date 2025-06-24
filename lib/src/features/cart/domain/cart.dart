@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
-import 'package:mobile_order_app/src/models/product.dart';
+import 'package:mobile_order_app/src/features/products/domain/product.dart';
 
 class Cart extends Equatable {
   const Cart([this.items = const {}]);

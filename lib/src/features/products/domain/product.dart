@@ -1,4 +1,4 @@
-import 'package:mobile_order_app/src/models/category.dart';
+import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 
 typedef ProductID = String;
 
@@ -95,23 +95,9 @@ class Product {
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
-    // タイムスタンプ変換用のヘルパー関数
-    DateTime parseTimestamp(dynamic timestamp) {
-      if (timestamp is int) {
-        // UNIXタイムスタンプ（ミリ秒）
-        return DateTime.fromMillisecondsSinceEpoch(timestamp);
-      } else if (timestamp is String) {
-        // ISO 8601形式の文字列
-        return DateTime.parse(timestamp);
-      } else {
-        // 不明なフォーマットの場合は現在時刻をデフォルトとする
-        return DateTime.now();
-      }
-    }
-
     return Product(
       id: map['id'] ?? '',
-      categoryId: map['categoryId'] as String,
+      categoryId: map['categoryId'] as CategoryID,
       title: map['title'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
       imagePath: map['imagePath'] ?? '',
@@ -119,8 +105,8 @@ class Product {
       price: map['price']?.toDouble() ?? 0.0,
       isVisible: map['isVisible'] ?? false,
       isOrderAccepting: map['isOrderAccepting'] ?? false,
-      created: parseTimestamp(map['created']),
-      updated: parseTimestamp(map['updated']),
+      created: DateTime.fromMillisecondsSinceEpoch(map['created']),
+      updated: DateTime.fromMillisecondsSinceEpoch(map['updated']),
     );
   }
 

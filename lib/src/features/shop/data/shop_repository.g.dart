@@ -1,14 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shop_service.dart';
+part of 'shop_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shopHash() => r'480c916978852066f98052b1c4f61375b50c73dc';
+String _$shopRepositoryHash() => r'f02dbfded717bd01347fe409ad447bfce9410477';
 
-/// See also [shop].
+/// See also [shopRepository].
+@ProviderFor(shopRepository)
+final shopRepositoryProvider = Provider<ShopRepository>.internal(
+  shopRepository,
+  name: r'shopRepositoryProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$shopRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ShopRepositoryRef = ProviderRef<ShopRepository>;
+String _$shopHash() => r'21e321f6ad6ea3d4f0cd0bca46804a76841dd12c';
+
+/// 店舗を取得するProvider
+///
+/// Copied from [shop].
 @ProviderFor(shop)
 final shopProvider = AutoDisposeFutureProvider<Shop?>.internal(
   shop,

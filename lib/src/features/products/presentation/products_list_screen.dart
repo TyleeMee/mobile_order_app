@@ -9,27 +9,27 @@ import 'package:mobile_order_app/src/constants/app_color.dart';
 import 'package:mobile_order_app/src/constants/breakpoints.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/go_to_cart/go_to_cart_widget.dart';
+import 'package:mobile_order_app/src/features/categories/application/categories_service.dart';
+import 'package:mobile_order_app/src/features/categories/domain/category.dart';
 import 'package:mobile_order_app/src/features/order/application/current_orders_notifier.dart';
 import 'package:mobile_order_app/src/features/order/presentation/order_pickup_card.dart';
 import 'package:mobile_order_app/src/features/products/presentation/products_grid.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
-import 'package:mobile_order_app/src/models/category.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
-import 'package:mobile_order_app/src/services/categories_service.dart';
 
 class ProductsListScreen extends ConsumerWidget {
   const ProductsListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesValue = ref.watch(categoriesProvider);
+    final categoriesValue = ref.watch(sortedCategoriesProvider);
     final cart = ref.watch(cartNotifierProvider);
     final double bottomPadding = cart.items.isNotEmpty ? 86 : 0;
     final orders = ref.watch(currentOrdersNotifierProvider);
 
     // AsyncValueの状態変化を監視し、エラー時にアラートダイアログを表示
     ref.listen<AsyncValue<List<Category>>>(
-      categoriesProvider,
+      sortedCategoriesProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
 

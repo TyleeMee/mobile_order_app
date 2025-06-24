@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_order_app/src/common_widgets/colored_headline.dart';
 import 'package:mobile_order_app/src/common_widgets/custom_image.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
+import 'package:mobile_order_app/src/features/shop/domain/shop.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
-import 'package:mobile_order_app/src/models/shop.dart';
 
 class ShopInfoWidget extends StatelessWidget {
   const ShopInfoWidget({super.key, required this.shop});

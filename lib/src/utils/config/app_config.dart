@@ -1,6 +1,6 @@
 /// アプリの設定情報を保持するモデルクラス
 class AppConfig {
-  /// レストランオーナーのAmazon cognito UID
+  /// レストランオーナーのFirebase Authentication UID
   //* 本来はnon-nullableが良いが、
   //*　AppConfigが設定される前に他の値を取得するエラーが発生→取得前の状態をnullとする
   final String? ownerId;

@@ -1,9 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:logger/logger.dart';
-import 'package:mobile_order_app/firebase_options.dart';
 import 'package:mobile_order_app/src/app.dart';
 import 'package:mobile_order_app/src/utils/config/app_config_notifier.dart';
 import 'package:mobile_order_app/src/utils/web_url_strategy.dart';
@@ -23,7 +23,12 @@ final logger = Logger(
 //TODO デプロイ後にcors.jsonファイルの"https://your-app-name.web.app"を実際のURLに変更 "*"は本番環境では消す。
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // 環境変数の読み込み
+  await dotenv.load(fileName: ".env");
+
+  // Stripe初期化をここに追加
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
+  await Stripe.instance.applySettings();
 
   String ownerId = '';
   String displayMode = 'normal';
@@ -43,7 +48,7 @@ void main() async {
     } catch (e) {
       logger.e('URL解析エラー: $e');
       // フォールバック
-      ownerId = 'mSnjBmpxQMMTEHTkvg3zk5gbWjt2';
+      ownerId = '77345a38-40c1-7096-68e1-18382c61ef20';
     }
   } else {
     // 非Webプラットフォームの場合（元の方法）
@@ -56,7 +61,7 @@ void main() async {
 
   // ownerIdが空の場合はデフォルト値を使用
   if (ownerId.isEmpty) {
-    ownerId = 'mSnjBmpxQMMTEHTkvg3zk5gbWjt2';
+    ownerId = '77345a38-40c1-7096-68e1-18382c61ef20';
   }
 
   logger.i('最終的なownerId: $ownerId');

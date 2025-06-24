@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'checkout_service.dart';
+part of 'payment_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkoutServiceHash() => r'bccfc0b2264103c4af5f9cef017e8a316a179bca';
+String _$paymentServiceHash() => r'4c509f9080f549011d7acfc0968ca0574935b082';
 
-/// See also [checkoutService].
-@ProviderFor(checkoutService)
-final checkoutServiceProvider = Provider<CheckoutService>.internal(
-  checkoutService,
-  name: r'checkoutServiceProvider',
+/// See also [paymentService].
+@ProviderFor(paymentService)
+final paymentServiceProvider = AutoDisposeProvider<PaymentService>.internal(
+  paymentService,
+  name: r'paymentServiceProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$checkoutServiceHash,
+          : _$paymentServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CheckoutServiceRef = ProviderRef<CheckoutService>;
+typedef PaymentServiceRef = AutoDisposeProviderRef<PaymentService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -8,11 +8,11 @@ import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dar
 import 'package:mobile_order_app/src/features/cart/presentation/cart_item_card.dart';
 import 'package:mobile_order_app/src/features/cart/presentation/cart_total_text.dart';
 import 'package:mobile_order_app/src/features/checkout/presentation/payment_widget.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
-import 'package:mobile_order_app/src/features/shop/data/shop_repository.dart';
 import 'package:mobile_order_app/src/features/shop/presentation/shop_info_widget.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
 import 'package:mobile_order_app/src/routing/app_router.dart';
+import 'package:mobile_order_app/src/services/products_service.dart';
+import 'package:mobile_order_app/src/services/shop_service.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -46,7 +46,7 @@ class CheckoutScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       if (shop != null) ShopInfoWidget(shop: shop),
-                      PaymentWidget(cart: cart),
+                      PaymentWidget(),
                       Padding(
                         padding: const EdgeInsets.all(Sizes.p16),
                         child: Row(

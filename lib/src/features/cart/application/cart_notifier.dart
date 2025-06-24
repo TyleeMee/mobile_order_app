@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/cart/domain/cart.dart';
 import 'package:mobile_order_app/src/features/cart/domain/item.dart';
 import 'package:mobile_order_app/src/features/cart/domain/mutable_cart.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
-import 'package:mobile_order_app/src/features/products/domain/product.dart';
+import 'package:mobile_order_app/src/models/product.dart';
+import 'package:mobile_order_app/src/services/products_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_notifier.g.dart';

@@ -3,28 +3,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/features/cart/application/cart_notifier.dart';
 import 'package:mobile_order_app/src/features/cart/domain/cart.dart';
 import 'package:mobile_order_app/src/features/order/application/current_orders_notifier.dart';
-import 'package:mobile_order_app/src/features/order/data/orders_repository.dart';
-import 'package:mobile_order_app/src/features/order/domain/order.dart';
-import 'package:mobile_order_app/src/features/products/data/products_repository.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/models/order.dart';
+import 'package:mobile_order_app/src/services/orders_service.dart';
+import 'package:mobile_order_app/src/services/products_service.dart';
+import 'package:mobile_order_app/src/utils/cart_payment_converter.dart';
 import 'package:mobile_order_app/src/utils/generate_random_code.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'checkout_service.g.dart';
 
 class CheckoutService {
-  CheckoutService(
-    this._cart,
-    this._ordersRepository,
-    this._productsRepository,
-    this._ref,
-  );
+  CheckoutService(this._cart, this._ref);
   final Cart _cart;
-  final OrdersRepository _ordersRepository;
-  final ProductsRepository _productsRepository;
   final Ref _ref;
 
-  Future<Order?> placeOrder() async {
+  // 合計金額計算用のpublicメソッド（Cart変換ユーティリティ使用）
+  Future<double> calculateTotal(Cart cart) async {
+    return await CartPaymentConverter.calculateCartTotal(
+      cart: cart,
+      getProduct: (productId) => _ref.read(productProvider(productId).future),
+    );
+  }
+
+  Future<Order?> placeOrder({String? paymentIntentId}) async {
     if (_cart.items.isNotEmpty) {
       // カートの内容をローカル変数にコピー（状態更新前に取得）
       final cartItems = Map<String, int>.from(_cart.items);
@@ -38,15 +40,19 @@ class CheckoutService {
         orderStatus: OrderStatus.newOrder,
         orderDate: DateTime.now(),
         total: total,
+        paymentIntentId: paymentIntentId,
       );
-      final order = await _ordersRepository.addOrder(orderData);
+      final order = await _ref.read(createOrderProvider(orderData).future);
       //currentOrdersNotifierにorderを追加する。
       //* currentOrdersNotifierProviderの状態更新中にcartNotifierProviderを操作するとエラー
       //* (同時に2つを操作できない決まり）
       //* cartNotifierProviderの操作はPaymentProcessingScreen
-      final orders = _ref
-          .read(currentOrdersNotifierProvider.notifier)
-          .addOrder(order);
+      final orders =
+          order != null
+              ? _ref
+                  .read(currentOrdersNotifierProvider.notifier)
+                  .addOrder(order)
+              : [];
       debugPrint(orders.toString());
       await Future.delayed(const Duration(milliseconds: 50));
       return order;
@@ -68,7 +74,7 @@ class CheckoutService {
       final quantity = entry.value;
 
       // 商品情報を非同期で取得
-      final product = await _productsRepository.fetchProduct(productId);
+      final product = await _ref.read(productProvider(productId).future);
 
       // 商品情報が取得できた場合のみ計算に追加
       if (product != null) {
@@ -83,7 +89,5 @@ class CheckoutService {
 @Riverpod(keepAlive: true)
 CheckoutService checkoutService(Ref ref) {
   final cart = ref.watch(cartNotifierProvider);
-  final ordersRepository = ref.watch(ordersRepositoryProvider);
-  final productsRepository = ref.watch(productsRepositoryProvider);
-  return CheckoutService(cart, ordersRepository, productsRepository, ref);
+  return CheckoutService(cart, ref);
 }

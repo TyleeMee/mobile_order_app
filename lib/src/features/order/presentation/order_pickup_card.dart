@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_order_app/src/constants/app_sizes.dart';
-import 'package:mobile_order_app/src/features/order/domain/order.dart';
 import 'package:mobile_order_app/src/localization/string_hardcoded.dart';
+import 'package:mobile_order_app/src/models/order.dart';
 import 'package:mobile_order_app/src/utils/date_formatter.dart';
 
 class OrderPickupCard extends StatelessWidget {

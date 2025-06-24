@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:mobile_order_app/src/features/checkout/presentation/payment_button_controller.dart';
-import 'package:mobile_order_app/src/utils/payment_error_handler.dart';
 
 class PaymentWidget extends ConsumerWidget {
   const PaymentWidget({super.key});
